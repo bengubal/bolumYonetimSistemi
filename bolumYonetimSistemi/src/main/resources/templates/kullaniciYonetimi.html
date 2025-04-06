@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Yönetimi</title>
+    <link rel="stylesheet" href="/css/kullaniciYonetimi.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Kullanıcı Yönetimi</h2>
+
+        <!-- Kullanıcı Listesi -->
+        <h3>Mevcut Kullanıcılar</h3>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Kullanıcı Adı</th>
+                <th>Rol</th>
+                <th>İşlemler</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.role}"></td>
+                <td>
+                    <button onclick="editUser(this)" 
+                            th:data-id="${user.id}" 
+                            th:data-username="${user.username}" 
+                            th:data-role="${user.role}">
+                        Düzenle
+                    </button>
+                    <a th:href="@{/admin/deleteUser/{id}(id=${user.id})}" onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                        <button>Sil</button>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Yeni Kullanıcı Ekleme Formu -->
+        <h3>Yeni Kullanıcı Ekle</h3>
+        <form action="/admin/addUser" method="post">
+            <label>Kullanıcı Adı:</label>
+            <input type="text" name="username" required>
+        
+            <label>Şifre:</label>
+            <input type="password" name="password" required>
+        
+            <label>Rol:</label>
+            <select name="role">
+                <option value="Bölüm Başkanı">Bölüm Başkanı</option>
+                <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
+                <option value="Öğretim Elemanı">Öğretim Elemanı</option>
+            </select>
+        
+            <button type="submit">Ekle</button>
+        </form>
+
+        <!-- Kullanıcı Düzenleme Formu (Gizli, sadece düzenleme için açılır) -->
+        <div id="editUserSection" style="display: none;">
+            <h3>Kullanıcı Düzenle</h3>
+            <form th:action="@{/admin/editUser}" method="post">
+                <input type="hidden" id="editId" name="id">
+                
+                <label>Kullanıcı Adı:</label>
+                <input type="text" id="editUsername" name="username" required>
+
+                <label>Rol:</label>
+                <select id="editRole" name="role">
+                    <option value="Bölüm Başkanı">Bölüm Başkanı</option>
+                    <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
+                    <option value="Öğretim Elemanı">Öğretim Elemanı</option>
+                </select>
+
+                <button type="submit">Güncelle</button>
+                <button type="button" onclick="cancelEdit()">İptal</button>
+            </form>
+        </div>
+    </div>
+
+    <a href="/logout"><button>Çıkış Yap</button></a>
+
+    <script>
+        function editUser(button) {
+            document.getElementById("editUserSection").style.display = "block";
+
+            document.getElementById("editId").value = button.getAttribute("data-id");
+            document.getElementById("editUsername").value = button.getAttribute("data-username");
+            document.getElementById("editRole").value = button.getAttribute("data-role");
+        }
+
+        function cancelEdit() {
+            document.getElementById("editUserSection").style.display = "none";
+        }
+    </script>
+</body>
+</html>

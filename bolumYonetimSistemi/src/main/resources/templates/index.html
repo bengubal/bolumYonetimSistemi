@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Giriş Seçimi</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h3>Bölüm İşleri Yazılımına Hoşgeldiniz</h3> <br>
+    <h2>Giriş Türünü Seçin</h2>
+    
+    <!-- Kullanıcı zaten giriş yaptıysa, seçenekler gösterilmez -->
+    <div th:if="${session.user == null}">
+        <a href="/idariGiris"><button>İdari Giriş</button></a>
+        <a href="/akademikGiris"><button>Akademik Giriş</button></a>
+    </div>
+    
+    <div th:if="${session.user != null}">
+        <p th:text="'Hoş geldiniz, ' + ${session.user.username}"></p>
+        <a href="/logout"><button>Çıkış Yap</button></a>
+    </div>
+</body>
+</html>
