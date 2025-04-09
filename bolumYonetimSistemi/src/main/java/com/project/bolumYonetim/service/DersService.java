@@ -23,6 +23,7 @@ public class DersService {
 		 return dersRepository.findAll();
 	 }
 	 
+	 
 	 public Optional<Ders> getById(Long id) {
 		    return dersRepository.findById(id);
 		}

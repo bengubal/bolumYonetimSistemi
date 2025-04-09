@@ -35,6 +35,10 @@ public class DersProgrami {
     @JoinColumn(name = "derslik_id")
     Derslik derslik;
 
+    @Override
+    public String toString() {
+        return this.id.toString();
+    }
     // Getter and Setter Methods
 
     public Long getId() {

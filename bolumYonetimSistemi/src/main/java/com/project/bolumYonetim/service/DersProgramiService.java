@@ -24,6 +24,10 @@ public class DersProgramiService {
         return dersProgramiRepository.findAll();
     }
 
+    public List<DersProgrami> getAllWithDers() {
+        return dersProgramiRepository.findAllWithDers();
+    }
+
     // Belirli bir gün için ders programını al
     public List<DersProgrami> getByGun(String gun) {
         return dersProgramiRepository.findByGun(gun);
