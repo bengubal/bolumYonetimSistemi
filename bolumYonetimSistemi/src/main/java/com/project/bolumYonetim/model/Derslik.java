@@ -1,6 +1,8 @@
-package com.example.bolumYonetim.model;
+package com.project.bolumYonetim.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 
@@ -12,6 +14,7 @@ public class Derslik {
 	
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	String isim;
 	Long kapasite;

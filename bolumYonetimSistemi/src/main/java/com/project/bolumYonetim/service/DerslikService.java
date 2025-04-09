@@ -1,12 +1,12 @@
-package com.example.bolumYonetim.service;
+package com.project.bolumYonetim.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.bolumYonetim.model.Derslik;
-import com.example.bolumYonetim.repository.DerslikRepository;
+import com.project.bolumYonetim.model.Derslik;
+import com.project.bolumYonetim.repository.DerslikRepository;
 
 @Service
 public class DerslikService {

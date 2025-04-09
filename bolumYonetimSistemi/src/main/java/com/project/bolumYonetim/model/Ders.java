@@ -1,6 +1,8 @@
-package com.example.bolumYonetim.model;
+package com.project.bolumYonetim.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -11,6 +13,7 @@ public class Ders {
 	
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	String ders_kodu;
 	String ders_adi;

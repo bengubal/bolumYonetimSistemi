@@ -1,6 +1,8 @@
-package com.example.bolumYonetim.model;
+package com.project.bolumYonetim.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -9,11 +11,19 @@ import jakarta.persistence.Table;
 public class OgretimUyesi {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
 	String isim;
 	String soyisim;
 	String email;
+	String unvan;
 	
+	public String getUnvan() {
+		return unvan;
+	}
+	public void setUnvan(String unvan) {
+		this.unvan = unvan;
+	}
 	public Long getId() {
 		return id;
 	}

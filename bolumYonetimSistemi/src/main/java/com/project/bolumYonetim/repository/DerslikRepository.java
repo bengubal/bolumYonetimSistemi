@@ -1,9 +1,9 @@
-package com.example.bolumYonetim.repository;
+package com.project.bolumYonetim.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.bolumYonetim.model.Derslik;
+import com.project.bolumYonetim.model.Derslik;
 
 @Repository
 public interface DerslikRepository extends JpaRepository<Derslik,Long> {
