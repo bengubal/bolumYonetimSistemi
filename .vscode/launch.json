@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BolumYonetimSistemiApplication<bolumYonetimSistemi>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.project.bolumYonetim.BolumYonetimSistemiApplication",
+            "projectName": "bolumYonetimSistemi",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
