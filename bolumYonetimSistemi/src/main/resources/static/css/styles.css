@@ -1,0 +1,118 @@
+/* Genel Sayfa Stil Ayarları */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Arka plan rengi */
+    height: 100vh; /* Sayfa yüksekliğini tam olarak al */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Yatayda ortalamak için */
+    align-items: center; /* Dikeyde ortalamak için */
+}
+
+.container {
+    text-align: center; /* İçeriği ortalamak için */
+    background-color: white; /* Sayfa içi arka plan rengi */
+    padding: 30px 40px; /* İçerik etrafında boşluk */
+    border-radius: 10px; /* Kenarları yuvarlat */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+    width: 300px; /* Sayfanın genişliği */
+}
+
+h1, h2 {
+    color: #333; /* Başlık rengi */
+    margin-bottom: 20px; /* Başlık altına boşluk */
+}
+
+p {
+    color: #555; /* Yazı rengi */
+    font-size: 16px;
+    margin-bottom: 20px; /* Paragraf altına boşluk */
+}
+
+/* Form Elemanları */
+input[type="text"], input[type="password"], button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Sınır rengi */
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #4CAF50; /* Buton rengi */
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049; /* Buton hover efekti */
+}
+
+button:active {
+    background-color: #388e3c; /* Buton tıklama efekti */
+}
+
+/* Hata Mesajı */
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Sayfa bağlantı stili */
+a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #45a049;
+}
+
+/* Tablo Stili */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #007bff;
+    color: white;
+}
