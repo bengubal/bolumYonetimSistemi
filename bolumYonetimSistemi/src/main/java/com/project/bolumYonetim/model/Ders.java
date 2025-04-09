@@ -21,6 +21,12 @@ public class Ders {
 	Long kredi;
 	Long kontenjan;
 
+
+	@Override
+public String toString() {
+    return this.id.toString();
+}
+
 	public Long getId() {
 		return id;
 	}

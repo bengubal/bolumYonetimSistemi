@@ -18,6 +18,11 @@ public class OgretimUyesi {
 	String email;
 	String unvan;
 	
+	@Override
+public String toString() {
+    return this.id.toString();
+}
+
 	public String getUnvan() {
 		return unvan;
 	}

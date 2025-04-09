@@ -4,14 +4,12 @@ import com.project.bolumYonetim.model.DersProgrami;
 
 import com.project.bolumYonetim.service.DersProgramiService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping("/dersProgrami")
 public class DersProgramiController {
 
@@ -22,42 +20,34 @@ public class DersProgramiController {
         this.dersProgramiService = dersProgramiService;
     }
 
+    // Tüm ders programlarını al
     @GetMapping
-    public String getAllDersProgrami(Model model) {
-        List<DersProgrami> dersProgramlari = dersProgramiService.getAll();
-        model.addAttribute("dersProgramlari", dersProgramlari);
-        return "index";
+    public List<DersProgrami> getAllDersProgrami() {
+        return dersProgramiService.getAll();
     }
 
-    @GetMapping("/dersEkle")
-    public String addDersProgramiForm(Model model) {
-        model.addAttribute("dersProgrami", new DersProgrami());
-        return "dersEkle";
+    // Belirli bir gün için ders programını al
+    @GetMapping("/gun/{gun}")
+    public List<DersProgrami> getDersProgramiByGun(@PathVariable String gun) {
+        return dersProgramiService.getByGun(gun);
     }
 
-    @PostMapping("/dersEkle")
-    public String addDersProgrami(@ModelAttribute DersProgrami dersProgrami) {
-        dersProgramiService.save(dersProgrami);
-        return "redirect:/dersProgrami";
+    // Ders programı ekle
+    @PostMapping
+    public DersProgrami addDersProgrami(@RequestBody DersProgrami dersProgrami) {
+        return dersProgramiService.save(dersProgrami);
     }
 
-    @GetMapping("/dersDuzenle/{id}")
-    public String editDersProgrami(@PathVariable Long id, Model model) {
-        DersProgrami dersProgrami = dersProgramiService.getById(id).orElseThrow(() -> new IllegalArgumentException("Invalid DersProgrami ID:" + id));
-        model.addAttribute("dersProgrami", dersProgrami);
-        return "dersDuzenle";
-    }
-
-    @PostMapping("/dersDuzenle/{id}")
-    public String updateDersProgrami(@PathVariable Long id, @ModelAttribute DersProgrami dersProgrami) {
+    // Ders programını güncelle
+    @PutMapping("/{id}")
+    public DersProgrami updateDersProgrami(@PathVariable Long id, @RequestBody DersProgrami dersProgrami) {
         dersProgrami.setId(id);
-        dersProgramiService.save(dersProgrami);
-        return "redirect:/dersProgrami";
+        return dersProgramiService.save(dersProgrami);
     }
 
-    @GetMapping("/dersSil/{id}")
-    public String deleteDersProgrami(@PathVariable Long id) {
+    // Ders programını sil
+    @DeleteMapping("/{id}")
+    public void deleteDersProgrami(@PathVariable Long id) {
         dersProgramiService.delete(id);
-        return "redirect:/dersProgrami";
     }
 }

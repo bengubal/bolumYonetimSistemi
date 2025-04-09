@@ -1,0 +1,20 @@
+<table>
+    <thead>
+        <tr>
+            <th>Ders Adı</th>
+            <th>Öğretim Üyesi</th>
+            <th>Gün</th>
+            <th>Başlangıç Saati</th>
+            <th>Bitiş Saati</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="dp : ${dersProgramiList}">
+            <td th:text="${dp.ders.ders_adi}"></td> <!-- Corrected part -->
+            <td th:text="${dp.ogretimuyesi.isim} + ' ' + ${dp.ogretimuyesi.soyisim}"></td>
+            <td th:text="${dp.gun}"></td>
+            <td th:text="${dp.baslangic_saati}"></td>
+            <td th:text="${dp.bitis_saati}"></td>
+        </tr>
+    </tbody>
+</table>

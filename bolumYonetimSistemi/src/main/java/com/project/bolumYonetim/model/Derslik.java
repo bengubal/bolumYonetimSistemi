@@ -19,6 +19,11 @@ public class Derslik {
 	String isim;
 	Long kapasite;
 	
+	@Override
+public String toString() {
+    return this.id.toString();
+}
+
 	
 	public Long getId() {
 		return id;

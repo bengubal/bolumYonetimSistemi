@@ -11,88 +11,85 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="dersprogrami")
+@Table(name = "dersprogrami")
 public class DersProgrami {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	
-	String gun;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-	LocalTime baslangic_saati;
-	LocalTime bitis_saati;
-	
-	
-	@ManyToOne
-	@JoinColumn(name="ders_id")
-	Ders ders;
-	
-	@ManyToOne
-	@JoinColumn(name="ogr_uye_id")
-	OgretimUyesi ogretimuyesi;
-	
-	@ManyToOne
-	@JoinColumn(name="derslik_id")
-	Derslik derslik;
-	
+    String gun;
 
-	
-	   public Long getId() {
-	        return id;
-	    }
+    LocalTime baslangic_saati;
+    LocalTime bitis_saati;
 
-	    public void setId(Long id) {
-	        this.id = id;
-	    }
+    @ManyToOne
+    @JoinColumn(name = "ders_id")
+    Ders ders;
 
-	    public String getGun() {
-	        return gun;
-	    }
+    @ManyToOne
+    @JoinColumn(name = "ogr_uye_id")
+    OgretimUyesi ogretimuyesi;
 
-	    public void setGun(String gun) {
-	        this.gun = gun;
-	    }
+    @ManyToOne
+    @JoinColumn(name = "derslik_id")
+    Derslik derslik;
 
-	    public LocalTime getBaslangic_saati() {  // Added getter method
-	        return baslangic_saati;
-	    }
+    // Getter and Setter Methods
 
-	    public void setBaslangic_saati(LocalTime baslangic_saati) {
-	        this.baslangic_saati = baslangic_saati;
-	    }
+    public Long getId() {
+        return id;
+    }
 
-	    public LocalTime getBitis_saati() {  // Added getter method
-	        return bitis_saati;
-	    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	    public void setBitis_saati(LocalTime bitis_saati) {
-	        this.bitis_saati = bitis_saati;
-	    }
+    public String getGun() {
+        return gun;
+    }
 
-	    public Ders getDers() {
-	        return ders;
-	    }
+    public void setGun(String gun) {
+        this.gun = gun;
+    }
 
-	    public void setDers(Ders ders) {
-	        this.ders = ders;
-	    }
+    public LocalTime getBaslangic_saati() {  // Added getter method
+        return baslangic_saati;
+    }
 
-	    public OgretimUyesi getOgretimuyesi() {
-	        return ogretimuyesi;
-	    }
+    public void setBaslangic_saati(LocalTime baslangic_saati) {
+        this.baslangic_saati = baslangic_saati;
+    }
 
-	    public void setOgretimuyesi(OgretimUyesi ogretimuyesi) {
-	        this.ogretimuyesi = ogretimuyesi;
-	    }
+    public LocalTime getBitis_saati() {  // Added getter method
+        return bitis_saati;
+    }
 
-	    public Derslik getDerslik() {
-	        return derslik;
-	    }
+    public void setBitis_saati(LocalTime bitis_saati) {
+        this.bitis_saati = bitis_saati;
+    }
 
-	    public void setDerslik(Derslik derslik) {
-	        this.derslik = derslik;
-	    }
+    public Ders getDers() {
+        return ders;
+    }
 
+    public void setDers(Ders ders) {
+        this.ders = ders;
+    }
+
+    public OgretimUyesi getOgretimuyesi() {
+        return ogretimuyesi;
+    }
+
+    public void setOgretimuyesi(OgretimUyesi ogretimuyesi) {
+        this.ogretimuyesi = ogretimuyesi;
+    }
+
+    public Derslik getDerslik() {
+        return derslik;
+    }
+
+    public void setDerslik(Derslik derslik) {
+        this.derslik = derslik;
+    }
 }

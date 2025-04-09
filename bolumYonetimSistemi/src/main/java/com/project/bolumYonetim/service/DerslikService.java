@@ -31,4 +31,5 @@ public class DerslikService {
 		derslikRepository.deleteById(id);
 	}
 
+
 }
