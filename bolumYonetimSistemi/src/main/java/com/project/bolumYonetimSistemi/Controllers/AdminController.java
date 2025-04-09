@@ -25,22 +25,22 @@ public class AdminController {
     public String listUsers(Model model, HttpSession session) {
         String role = (String) session.getAttribute("role");
         if (!"Bölüm Başkanı".equals(role)) {
-            return "yetkisiz";
+            return "yetkilendirme/yetkisiz";
         }
 
         model.addAttribute("users", userService.getAllUsers());
-        return "kullaniciYonetimi"; // Kullanıcıları listeleyen sayfa
+        return "yetkilendirme/kullaniciYonetimi"; // Kullanıcıları listeleyen sayfa
     }
 
     @GetMapping("/addUser")
     public String addUserForm(Model model, HttpSession session) {
         String role = (String) session.getAttribute("role");
         if (!"Bölüm Başkanı".equals(role)) {
-            return "yetkisiz";
+            return "yetkilendirme/yetkisiz";
         }
 
         model.addAttribute("user", new User());
-        return "kullaniciYonetimi";
+        return "yetkilendirme/kullaniciYonetimi";
     }
 
     @PostMapping("/addUser")
@@ -53,12 +53,12 @@ public class AdminController {
     public String editUserForm(@PathVariable Long id, Model model, HttpSession session) {
         String role = (String) session.getAttribute("role");
         if (!"Bölüm Başkanı".equals(role)) {
-            return "yetkisiz";
+            return "yetkilendirme/yetkisiz";
         }
 
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-        return "kullaniciYonetimi";
+        return "yetkilendirme/kullaniciYonetimi";
     }
 
 
@@ -81,7 +81,7 @@ public class AdminController {
     public String deleteUser(@PathVariable Long id, HttpSession session) {
         String role = (String) session.getAttribute("role");
         if (!"Bölüm Başkanı".equals(role)) {
-            return "yetkisiz";
+            return "yetkilendirme/yetkisiz";
         }
 
         userService.deleteUser(id);

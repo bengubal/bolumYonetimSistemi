@@ -21,19 +21,19 @@ public class LoginController {
     // Ana giriş sayfası
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "yetkilendirme/index";
     }
 
     // İdari giriş ekranı
     @GetMapping("/idariGiris")
     public String idariGiris() {
-        return "idariGiris";
+        return "yetkilendirme/idariGiris";
     }
 
     // Akademik giriş ekranı
     @GetMapping("/akademikGiris")
     public String akademikGiris() {
-        return "akademikGiris";
+        return "yetkilendirme/akademikGiris";
     }
 
     // İdari giriş işlemi
@@ -48,16 +48,16 @@ public class LoginController {
 
             if("Bölüm Başkanı".equals(user.getRole()))
             {
-                return "bolumBaskani";
+                return "yetkilendirme/bolumBaskani";
             }
             else if ("Bölüm Sekreteri".equals(user.getRole()))
             {
-                return "bolumSekreteri";
+                return "yetkilendirme/bolumSekreteri";
             }
         }
 
         model.addAttribute("error", "Geçersiz giriş veya yetkisiz kullanıcı.");
-        return "idariGiris";
+        return "yetkilendirme/idariGiris";
     }
 
     // Akademik giriş işlemi
@@ -72,16 +72,16 @@ public class LoginController {
 
             if("Bölüm Başkanı".equals(user.getRole()))
             {
-                return "bolumBaskani";
+                return "yetkilendirme/bolumBaskani";
             }
             else if ("Öğretim Elemanı".equals(user.getRole()))
             {
-                return "ogretimElemani";
+                return "yetkilendirme/ogretimElemani";
             }
         }
 
         model.addAttribute("error", "Geçersiz giriş veya yetkisiz kullanıcı.");
-        return "akademikGiris";
+        return "yetkilendirme/akademikGiris";
     }
 
     @GetMapping("/logout")
