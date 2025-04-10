@@ -4,10 +4,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name="ogretimuyesi")
+@Data
 public class OgretimUyesi {
 	
 	@Id
@@ -18,6 +22,10 @@ public class OgretimUyesi {
 	String email;
 	String unvan;
 	
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	User user;
+
 	@Override
 public String toString() {
     return this.id.toString();

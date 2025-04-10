@@ -36,25 +36,44 @@
             </tr>
         </table>
 
-        <!-- Yeni Kullanıcı Ekleme Formu -->
         <h3>Yeni Kullanıcı Ekle</h3>
-        <form action="/admin/addUser" method="post">
-            <label>Kullanıcı Adı:</label>
-            <input type="text" name="username" required>
-        
-            <label>Şifre:</label>
-            <input type="password" name="password" required>
-        
-            <label>Rol:</label>
-            <select name="role">
-                <option value="Bölüm Başkanı">Bölüm Başkanı</option>
-                <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
-                <option value="Öğretim Elemanı">Öğretim Elemanı</option>
-            </select>
-        
-            <button type="submit">Ekle</button>
-        </form>
+<form action="/admin/addUser" method="post">
+    <label>Kullanıcı Adı:</label>
+    <input type="text" name="username" required>
 
+    <label>Şifre:</label>
+    <input type="password" name="password" required>
+
+    <label>Rol:</label>
+    <select name="role" id="roleSelect" onchange="toggleOgretimFields(this)">
+        <option value="Bölüm Başkanı">Bölüm Başkanı</option>
+        <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
+        <option value="Öğretim Elemanı">Öğretim Elemanı</option>
+    </select>
+
+    <div id="ogretimFields" style="display: none;">
+        <label>İsim:</label>
+        <input type="text" name="isim">
+
+        <label>Soyisim:</label>
+        <input type="text" name="soyisim">
+
+        <label>Email:</label>
+        <input type="email" name="email">
+
+        <label>Ünvan:</label>
+        <input type="text" name="unvan">
+    </div>
+
+    <button type="submit">Ekle</button>
+</form>
+
+<script>
+function toggleOgretimFields(select) {
+    const ogretimFields = document.getElementById("ogretimFields");
+    ogretimFields.style.display = select.value === "Öğretim Elemanı" ? "block" : "none";
+}
+</script>
         <!-- Kullanıcı Düzenleme Formu (Gizli, sadece düzenleme için açılır) -->
         <div id="editUserSection" style="display: none;">
             <h3>Kullanıcı Düzenle</h3>
