@@ -6,9 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.bolumYonetim.model.Derslik;
 import com.project.bolumYonetim.model.OgretimUyesi;
-import com.project.bolumYonetim.repository.DerslikRepository;
 import com.project.bolumYonetim.repository.OgretimUyesiRepository;
 
 @Service
