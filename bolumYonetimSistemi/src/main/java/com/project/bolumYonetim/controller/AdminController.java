@@ -58,7 +58,7 @@ public String addUser(@ModelAttribute OgretimUyesiRequestDTO dto) {
     userService.saveUser(user);
 
     // 2. Eğer öğretim üyesiyse, OgretimUyesi tablosuna da ekle
-    if ("Öğretim Elemanı".equals(dto.getRole())) {
+    if ("Öğretim Elemanı".equals(dto.getRole()) || "Bölüm Başkanı".equals(dto.getRole())) {
         OgretimUyesi ogretimUyesi = new OgretimUyesi();
         ogretimUyesi.setIsim(dto.getIsim());
         ogretimUyesi.setSoyisim(dto.getSoyisim());

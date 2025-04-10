@@ -71,7 +71,23 @@
 <script>
 function toggleOgretimFields(select) {
     const ogretimFields = document.getElementById("ogretimFields");
-    ogretimFields.style.display = select.value === "Öğretim Elemanı" ? "block" : "none";
+    const bolumBaskaniFields = document.getElementById("bolumBaskaniFields");
+    
+    // Öğretim Elemanı seçildiyse, ilgili alanı göster
+    if (select.value === "Öğretim Elemanı") {
+        ogretimFields.style.display = "block";
+        bolumBaskaniFields.style.display = "none";  // Bölüm Başkanı alanını gizle
+    }
+    // Bölüm Başkanı seçildiyse, ilgili alanı göster
+    else if (select.value === "Bölüm Başkanı") {
+        bolumBaskaniFields.style.display = "block";
+        ogretimFields.style.display = "none";  // Öğretim Elemanı alanını gizle
+    }
+    // Diğer durumda her iki alanı da gizle
+    else {
+        ogretimFields.style.display = "none";
+        bolumBaskaniFields.style.display = "none";
+    }
 }
 </script>
         <!-- Kullanıcı Düzenleme Formu (Gizli, sadece düzenleme için açılır) -->
