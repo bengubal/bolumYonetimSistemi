@@ -1,6 +1,7 @@
 package com.project.bolumYonetim.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,10 @@ public class DerslikService {
 	
 	public void deleteDerslik(Long id) {
 		derslikRepository.deleteById(id);
+	}
+
+	public Optional<Derslik> getById(Long id) {
+		return derslikRepository.findById(id);
 	}
 
 

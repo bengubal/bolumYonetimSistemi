@@ -49,8 +49,8 @@ public DersProgramiViewController(
     @GetMapping("/yeni")
     public String showAddForm(Model model) {
         model.addAttribute("dersProgrami", new DersProgrami());
-        model.addAttribute("dersler", dersService.getAll()); // dersService eklenmeli
-        model.addAttribute("ogretimUyeleri", ogretimUyesiService.getAllOgr()); // ogretimUyesiService eklenmeli
+        model.addAttribute("dersler", dersService.getAll()); 
+        model.addAttribute("ogretimUyeleri", ogretimUyesiService.getAllOgr()); 
         model.addAttribute("derslikler", derslikService.getAllDerslik()); // derslikService eklenmeli
         return "dersProgrami/form";
     }
