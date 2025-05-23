@@ -32,6 +32,14 @@
                 <td th:text="${sinav.derslik.isim}">Derslik</td>
                 <td th:text="${sinav.tarih}">Tarih</td>
                 <td th:text="${sinav.saat}">Saat</td>
+                <td th:text="${sinav.notlar}"></td>
+                <td>
+                    <form th:action="@{/ogretimelemani/sinavprogrami/notEkle}" method="post">
+                        <input type="hidden" name="sinavId" th:value="${sinav.id}" />
+                        <input type="text" name="notlar" th:value="${sinav.notlar}" placeholder="Not giriniz..." />
+                        <button type="submit">Kaydet</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>

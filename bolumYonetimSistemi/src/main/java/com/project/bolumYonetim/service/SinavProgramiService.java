@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.bolumYonetim.model.OgretimUyesi;
 import com.project.bolumYonetim.model.SinavProgrami;
 import com.project.bolumYonetim.repository.SinavProgramiRepository;
 
@@ -66,5 +67,17 @@ public class SinavProgramiService {
 
     public void delete(Long id) {
         sinavProgramiRepository.deleteById(id);
+    }
+
+    public List<SinavProgrami> getSinavlarByOgretimUyesi(OgretimUyesi uye) {
+        return sinavProgramiRepository.findByGozetmen(uye);
+    }
+
+    public void ogretimUyesiNotEkle(Long sinavId, Long userId, String not) {
+        SinavProgrami sinav = sinavProgramiRepository.findById(sinavId).orElse(null);
+        if (sinav != null && sinav.getGozetmen().getUser().getId().equals(userId)) {
+            sinav.setNotlar(not);
+            sinavProgramiRepository.save(sinav);
+        }
     }
 }

@@ -19,5 +19,5 @@ public interface SinavProgramiRepository  extends JpaRepository<SinavProgrami ,L
     List<SinavProgrami> findByGozetmenId(Long gozetmenId);
     List<SinavProgrami> findByTarihAndSaatAndDerslik(LocalDate tarih, LocalTime saat, Derslik derslik);
     List<SinavProgrami> findByTarihAndSaatAndGozetmen(LocalDate tarih, LocalTime saat, OgretimUyesi gozetmen);
-
+    List<SinavProgrami> findByGozetmen(OgretimUyesi gozetmen);
 }

@@ -29,5 +29,8 @@ public class SinavProgrami {
         @ManyToOne
         @JoinColumn(name = "derslik_id")
         private Derslik derslik;
+
+        @Column(length = 1000)
+        private String notlar; // Öğretim üyesinin açıklama veya notu
     
 }

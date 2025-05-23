@@ -35,6 +35,7 @@
                 <td th:text="${sinav.gozetmen.unvan + ' ' + sinav.gozetmen.isim + ' ' + sinav.gozetmen.soyisim}">Gözetmen</td>
                 <td th:text="${sinav.tarih}">Tarih</td>
                 <td th:text="${sinav.saat}">Saat</td>
+                <td th:text="${sinav.notlar} ?: 'Henüz girilmedi'"></td>
                 <td>
                     <a th:href="@{'/sinavprogrami/sil/' + ${sinav.id}}" style="color:red;">Sil</a>
                 </td>
