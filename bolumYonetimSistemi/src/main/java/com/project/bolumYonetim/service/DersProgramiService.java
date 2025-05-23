@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.bolumYonetim.model.DersProgrami;
+import com.project.bolumYonetim.model.OgretimUyesi;
 import com.project.bolumYonetim.repository.DersProgramiRepository;
 
 import java.util.List;
@@ -61,7 +62,10 @@ public class DersProgramiService {
     
         return dersProgramiRepository.save(dersProgrami);
     }
-    
+
+    public List<DersProgrami> getByOgrUye(OgretimUyesi ogretimUyesi){
+         return dersProgramiRepository.findByOgretimuyesi(ogretimUyesi);
+    }
 
     // Ders programını sil
     public void delete(Long id) {

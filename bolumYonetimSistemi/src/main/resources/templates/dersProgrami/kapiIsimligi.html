@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kapı İsimliği</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .isimlik { border: 2px solid #000; padding: 20px; width: 600px; }
+        h2 { margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
+        .print-button { margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="isimlik">
+    <h2 th:text="${ogretimUyesi.unvan} + ' ' + ${ogretimUyesi.isim} + ' ' + ${ogretimUyesi.soyisim}">Dr. Ahmet Yılmaz</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Ders</th>
+            <th>Gün</th>
+            <th>Saat</th>
+            <th>Derslik</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${program}">
+            <td th:text="${item.ders.ders_adi}"></td>
+            <td th:text="${item.gun}"></td>
+            <td th:text="${item.baslangic_saati}+ '-' + ${item.bitis_saati}"></td>
+            <td th:text="${item.derslik.isim}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="print-button" onclick="window.print()">Yazdır</button>
+</div>
+</body>
+</html>
