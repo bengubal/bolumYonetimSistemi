@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Günlük Sınav Oturma Düzenleri</title>
+</head>
+<body>
+    <h1>Günlük Sınav Oturma Düzenleri</h1>
+
+    <form action="/sinav-oturma/gunluk" method="get">
+        <label for="tarih">Tarih:</label>
+        <input type="date" id="tarih" name="tarih" th:value="${seciliTarih}" />
+        <button type="submit">Göster</button>
+    </form>
+
+    <h2>Sınav Oturma Düzenleri</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Derslik</th>
+                <th>Sınav Adı</th>
+                <th>Sınav Tarihi</th>
+                <th>Durum</th>
+                <th>Detay</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="oturma : ${oturmaDuzenleri}">
+                <td th:text="${oturma.id}"></td>
+                <td th:text="${oturma.derslikAdi}"></td>
+                <td th:text="${oturma.sinavAdi}"></td>
+                <td th:text="${#dates.format(oturma.sinavTarihi, 'dd.MM.yyyy HH:mm')}"></td>
+                <td th:text="${oturma.durum}"></td>
+                <td><a th:href="@{/sinav-oturma/{id}(id=${oturma.id})}">Detay</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Günlük Sınav Programları</h2>
+    <ul>
+        <li th:each="sinav : ${sinavProgramlari}" th:text="${sinav.sinavAdi} + ' - ' + ${#dates.format(sinav.sinavTarihi, 'dd.MM.yyyy HH:mm')}"></li>
+    </ul>
+
+    <a href="/sinav-oturma">Tüm Oturma Düzenlerine Dön</a>
+</body>
+</html>

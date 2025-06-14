@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Oturma Düzeni Matrisi</title>
+    <style>
+        table, th, td {
+            border: 1px solid black; 
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Oturma Düzeni Matrisi</h1>
+
+    <p><strong>Derslik:</strong> <span th:text="${derslik.isim}"></span></p>
+    <p><strong>Sınav Adı:</strong> <span th:text="${oturmaDuzeni.sinavAdi}"></span></p>
+    <p><strong>Sınav Tarihi:</strong> <span th:text="${#dates.format(oturmaDuzeni.sinavTarihi, 'dd.MM.yyyy HH:mm')}"></span></p>
+
+    <table>
+        <tbody>
+            <tr th:each="row : ${matris}">
+                <td th:each="cell : ${row}" th:text="${cell}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/sinav-oturma/{id}(id=${oturmaDuzeni.id})}">Detaylara Dön</a>
+</body>
+</html>

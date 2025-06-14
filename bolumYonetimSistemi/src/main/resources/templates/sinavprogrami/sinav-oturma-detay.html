@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sınav Oturma Düzeni Detay</title>
+</head>
+<body>
+    <h1>Sınav Oturma Düzeni Detayları</h1>
+
+    <p><strong>ID:</strong> <span th:text="${oturmaDuzeni.id}"></span></p>
+    <p><strong>Derslik:</strong> <span th:text="${oturmaDuzeni.derslikAdi}"></span></p>
+    <p><strong>Sınav Adı:</strong> <span th:text="${oturmaDuzeni.sinavAdi}"></span></p>
+    <p><strong>Sınav Tarihi:</strong> <span th:text="${#dates.format(oturmaDuzeni.sinavTarihi, 'dd.MM.yyyy HH:mm')}"></span></p>
+    <p><strong>Gözetmenler:</strong> <span th:text="${oturmaDuzeni.gozetmenler}"></span></p>
+    <p><strong>Durum:</strong> <span th:text="${oturmaDuzeni.durum}"></span></p>
+
+    <a th:href="@{/sinav-oturma/{id}/matris(id=${oturmaDuzeni.id})}">Oturma Düzeni Matrisi</a><br/>
+    <a th:href="@{/sinav-oturma/{id}/pdf(id=${oturmaDuzeni.id})}">PDF Raporu Oluştur</a><br/>
+
+    <form th:action="@{/sinav-oturma/{id}/onayla(id=${oturmaDuzeni.id})}" method="post">
+        <button type="submit">Oturma Düzenini Onayla</button>
+    </form>
+
+    <a href="/sinav-oturma">Geri Dön</a>
+</body>
+</html>

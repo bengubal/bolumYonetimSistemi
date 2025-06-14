@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Yeni Sınav Oturma Düzeni</title>
+</head>
+<body>
+    <h1>Yeni Sınav Oturma Düzeni Oluştur</h1>
+
+    <form action="/sinav-oturma/olustur" method="post">
+        <label for="derslikId">Derslik:</label>
+        <select id="derslikId" name="derslikId" required>
+            <option value="">Seçiniz</option>
+            <th:block th:each="derslik : ${derslikler}">
+                <option th:value="${derslik.id}" th:text="${derslik.isim}"></option>
+            </th:block>
+        </select><br/>
+
+        <label for="sinavAdi">Sınav Adı:</label>
+        <input type="text" id="sinavAdi" name="sinavAdi" required/><br/>
+
+        <label for="sinavTarihi">Sınav Tarihi:</label>
+        <input type="datetime-local" id="sinavTarihi" name="sinavTarihi" required/><br/>
+
+        <label for="ogrenciIds">Öğrenciler:</label>
+        <select id="ogrenciIds" name="ogrenciIds" multiple size="10" required>
+            <th:block th:each="ogrenci : ${ogrenciler}">
+                <option th:value="${ogrenci.id}" th:text="|${ogrenci.ad} ${ogrenci.soyad}|"></option>
+            </th:block>
+        </select><br/>
+
+        <label for="gozetmenler">Gözetmenler:</label>
+        <input type="text" id="gozetmenler" name="gozetmenler"/><br/>
+
+        <button type="submit">Oturma Düzeni Oluştur</button>
+    </form>
+
+    <h2>Sınav Programından Oturma Düzeni Oluştur</h2>
+    <form action="/sinav-oturma/sinav-programindan-olustur" method="post">
+        <label for="sinavProgramiId">Sınav Programı:</label>
+        <select id="sinavProgramiId" name="sinavProgramiId" required>
+            <option value="">Seçiniz</option>
+<th:block th:if="${sinavProgramlari == null or #lists.isEmpty(sinavProgramlari)}">
+  <p>Sınav programı bulunamadı!</p>
+</th:block>
+
+        </select><br/>
+
+        <label for="ogrenciIds">Öğrenciler:</label>
+        <select id="ogrenciIds" name="ogrenciIds" multiple size="10" required>
+            <th:block th:each="ogrenci : ${ogrenciler}">
+                <option th:value="${ogrenci.id}" th:text="|${ogrenci.ad} ${ogrenci.soyad}|"></option>
+            </th:block>
+        </select><br/>
+
+        <button type="submit">Oturma Düzeni Oluştur</button>
+    </form>
+
+    <a href="/sinav-oturma">Geri Dön</a>
+</body>
+</html>
