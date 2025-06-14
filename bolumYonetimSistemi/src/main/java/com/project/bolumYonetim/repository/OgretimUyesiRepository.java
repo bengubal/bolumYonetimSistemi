@@ -12,4 +12,6 @@ import com.project.bolumYonetim.model.User;
 public interface OgretimUyesiRepository extends JpaRepository<OgretimUyesi,Long> {
 
     Optional<OgretimUyesi> findByUser(User user);
+    OgretimUyesi findByUserId(Long id);
+    
 }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Notlar Yönetimi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .isimlik {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .print-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .print-button:hover {
+            background-color: #115293;
+        }
+
+        @media print {
+            .print-button {
+                display: none;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .isimlik {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+        /* Notlar ve form kısmı için basit stil */
+        #notlar-section {
+            margin-top: 40px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        #notlar-section h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        #notlar-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #notlar-list th, #notlar-list td {
+            padding: 8px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+<h2>Tüm Öğretim Üyeleri Notları</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Öğretim Üyesi</th>
+        <th>Ders</th>
+        <th>Gün</th>
+        <th>Saat</th>
+        <th>Derslik</th>
+        <th>Not</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="notlar : ${notlar}">
+        <td th:text="${notlar.ogretimUyesi.unvan} + ' ' + ${notlar.ogretimUyesi.isim} + ' ' + ${notlar.ogretimUyesi.soyisim}"></td>
+        <td th:text="${notlar.dersProgrami.ders.ders_adi}"></td>
+        <td th:text="${notlar.dersProgrami.gun}"></td>
+        <td th:text="${notlar.dersProgrami.baslangic_saati} + '-' + ${notlar.dersProgrami.bitis_saati}"></td>
+        <td th:text="${notlar.dersProgrami.derslik.isim}"></td>
+        <td th:text="${notlar.notMetni}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,39 +1,144 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Sınav Programım</title>
     <meta charset="UTF-8">
+    <title>Sınav Programım</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
-        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        h2 { margin-bottom: 10px; }
-        form { margin-top: 30px; padding: 20px; border: 1px solid #ccc; background-color: #f8f8f8; }
-        label { display: block; margin-top: 10px; }
-        input, select { width: 100%; padding: 6px; margin-top: 4px; }
-        button { margin-top: 15px; padding: 10px 20px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+            padding: 14px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background-color: #135ba1;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .logout {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #d32f2f;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+
+        .logout:hover {
+            background-color: #b71c1c;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            tr {
+                margin-bottom: 20px;
+                background-color: #fff;
+                border-radius: 10px;
+                padding: 10px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            }
+
+            th {
+                display: none;
+            }
+
+            td {
+                text-align: left;
+                padding: 10px;
+                position: relative;
+            }
+
+            td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: block;
+                margin-bottom: 5px;
+                color: #1976d2;
+            }
+        }
     </style>
 </head>
 <body>
     <h2>Sınav Programınız</h2>
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Ders</th>
                 <th>Derslik</th>
                 <th>Tarih</th>
                 <th>Saat</th>
+                <th>Notlar</th>
+                <th>Not Ekle / Güncelle</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="sinav : ${sinavlar}">
-                <td th:text="${sinav.ders.ders_adi}">Ders Adı</td>
-                <td th:text="${sinav.derslik.isim}">Derslik</td>
-                <td th:text="${sinav.tarih}">Tarih</td>
-                <td th:text="${sinav.saat}">Saat</td>
-                <td th:text="${sinav.notlar}"></td>
-                <td>
+                <td th:text="${sinav.ders.ders_adi}" data-label="Ders">Ders Adı</td>
+                <td th:text="${sinav.derslik.isim}" data-label="Derslik">Derslik</td>
+                <td th:text="${sinav.tarih}" data-label="Tarih">Tarih</td>
+                <td th:text="${sinav.saat}" data-label="Saat">Saat</td>
+                <td th:text="${sinav.notlar}" data-label="Notlar">Henüz girilmedi</td>
+                <td data-label="Not Ekle">
                     <form th:action="@{/ogretimelemani/sinavprogrami/notEkle}" method="post">
                         <input type="hidden" name="sinavId" th:value="${sinav.id}" />
                         <input type="text" name="notlar" th:value="${sinav.notlar}" placeholder="Not giriniz..." />
@@ -44,6 +149,6 @@
         </tbody>
     </table>
 
-    <a href="/logout">Çıkış</a>
+    <a href="/logout" class="logout">Çıkış</a>
 </body>
 </html>
