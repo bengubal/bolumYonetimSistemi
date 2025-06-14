@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Derslik İşlemleri</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .size-selector { border: 2px solid #ddd; border-radius: 8px; padding: 15px; background-color: #f8f9fa; margin: 15px 0; }
+        .grid-container { display: inline-block; border: 1px solid #ccc; background-color: white; border-radius: 4px; padding: 2px; }
+        .grid-cell { width: 20px; height: 20px; border: 1px solid #e0e0e0; display: inline-block; margin: 1px; cursor: pointer; background-color: #fff; transition: all 0.2s ease; }
+        .grid-cell:hover { background-color: #007bff; border-color: #0056b3; }
+        .grid-cell.selected { background-color: #007bff; border-color: #0056b3; }
+        .grid-cell.preview { background-color: #bee5eb; border-color: #17a2b8; }
+        .grid-row { display: block; height: 22px; line-height: 22px; }
+        .size-display { margin-top: 10px; font-weight: bold; color: #007bff; font-size: 14px; }
+        .size-info { background-color: #e3f2fd; border: 1px solid #90caf9; border-radius: 4px; padding: 8px; margin-top: 10px; font-size: 12px; color: #1565c0; }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="mb-4">Derslik İşlemleri</h2>
+
+    <a th:href="@{/ders_derslik/derslik/new}" class="btn btn-success mb-3">Yeni Derslik Ekle</a>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Derslik Adı</th>
+            <th>Boyut</th>
+            <th>İşlemler</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="derslik : ${derslikler}">
+            <td th:text="${derslik.id}">1</td>
+            <td th:text="${derslik.isim}">Derslik A</td>
+            <td>
+                <span th:if="${derslik.genislik != null and derslik.yukseklik != null}"
+                      th:text="${derslik.genislik + ' x ' + derslik.yukseklik}"></span>
+                <span th:unless="${derslik.genislik != null and derslik.yukseklik != null}" class="text-muted">Boyut belirtilmemiş</span>
+            </td>
+            <td>
+                <a th:href="@{/ders_derslik/derslik/{id}(id=${derslik.id})}" class="btn btn-primary btn-sm">Güncelle</a>
+                <a th:href="@{/ders_derslik/derslik/delete/{id}(id=${derslik.id})}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Dersliği silmek istediğinize emin misiniz?')">Sil</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Ekleme / Güncelleme Formu -->
+    <div th:if="${derslik != null}">
+        <h4 th:text="${derslik.id == null ? 'Yeni Derslik Ekle' : 'Dersliği Güncelle'}"></h4>
+        <form th:action="@{/ders_derslik/derslik/save}" th:object="${derslik}" method="post">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="mb-3">
+                <label for="derslik-ad" class="form-label">Derslik Adı</label>
+                <input type="text" id="derslik-ad" th:field="*{isim}" class="form-control" required/>
+            </div>
+
+            <!-- Boyut Seçici -->
+            <div class="size-selector">
+                <label class="form-label">Derslik Boyutu Seçin</label>
+                <div class="size-display" id="sizeDisplay">Boyut: 1 x 1</div>
+                <div class="grid-container" id="gridContainer"></div>
+                <div class="size-info"><strong>Nasıl kullanılır:</strong> Fare ile karelerin üzerine gelerek boyut seçin.</div>
+            </div>
+
+            <!-- Gizli Boyut Alanları -->
+            <input type="hidden" id="genislik" th:field="*{genislik}"/>
+            <input type="hidden" id="yukseklik" th:field="*{yukseklik}"/>
+
+            <button type="submit" class="btn btn-primary mt-2">Kaydet</button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gridContainer = document.getElementById('gridContainer');
+    const sizeDisplay = document.getElementById('sizeDisplay');
+    const genislikInput = document.getElementById('genislik');
+    const yukseklikInput = document.getElementById('yukseklik');
+
+    const maxCols = 15, maxRows = 12;
+    let selectedWidth = parseInt(genislikInput.value) || 1;
+    let selectedHeight = parseInt(yukseklikInput.value) || 1;
+
+    function createGrid() {
+        gridContainer.innerHTML = '';
+        for (let row = 1; row <= maxRows; row++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'grid-row';
+            for (let col = 1; col <= maxCols; col++) {
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.row = row;
+                cell.dataset.col = col;
+
+                if (col <= selectedWidth && row <= selectedHeight) cell.classList.add('selected');
+                cell.addEventListener('mouseenter', () => highlightPreview(col, row));
+                cell.addEventListener('click', () => selectSize(col, row));
+                rowDiv.appendChild(cell);
+            }
+            gridContainer.appendChild(rowDiv);
+        }
+
+        gridContainer.addEventListener('mouseleave', () => {
+            clearPreview();
+            showSelected();
+        });
+    }
+
+    function highlightPreview(width, height) {
+        document.querySelectorAll('.grid-cell').forEach(cell => {
+            const col = parseInt(cell.dataset.col), row = parseInt(cell.dataset.row);
+            cell.classList.remove('preview', 'selected');
+            if (col <= width && row <= height) cell.classList.add('preview');
+        });
+        sizeDisplay.textContent = `Boyut: ${width} x ${height}`;
+    }
+
+    function selectSize(width, height) {
+        selectedWidth = width;
+        selectedHeight = height;
+        genislikInput.value = width;
+        yukseklikInput.value = height;
+        showSelected();
+    }
+
+    function showSelected() {
+        document.querySelectorAll('.grid-cell').forEach(cell => {
+            const col = parseInt(cell.dataset.col), row = parseInt(cell.dataset.row);
+            cell.classList.remove('preview', 'selected');
+            if (col <= selectedWidth && row <= selectedHeight) cell.classList.add('selected');
+        });
+        sizeDisplay.textContent = `Boyut: ${selectedWidth} x ${selectedHeight}`;
+    }
+
+    function clearPreview() {
+        document.querySelectorAll('.grid-cell').forEach(cell => cell.classList.remove('preview'));
+    }
+
+    createGrid();
+    showSelected();
+});
+</script>
+</body>
+</html>

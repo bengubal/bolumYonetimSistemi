@@ -1,56 +1,55 @@
 package com.project.bolumYonetim.controller;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.project.bolumYonetim.model.Derslik;
 import com.project.bolumYonetim.service.DerslikService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/derslikler")
+@Controller
+@RequestMapping("/ders_derslik/derslik")
 public class DerslikController {
 
     @Autowired
     private DerslikService derslikService;
 
-    // Get all Derslik entries
+    // Tüm derslikleri listele
     @GetMapping
-    public List<Derslik> getAll() {
-        return derslikService.getAllDerslik();
+    public String getAll(Model model) {
+        model.addAttribute("derslikler", derslikService.getAllDerslik());
+        return "dersProgrami/derslik-list"; // resources/templates/derslik-list.html
     }
 
-    // Get a Derslik entry by ID
+    // Yeni derslik formu
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("derslik", new Derslik());
+        model.addAttribute("derslikler", derslikService.getAllDerslik());
+        return "dersProgrami/derslik-list";
+    }
+
+    // Kaydet (yeni veya güncelle)
+    @PostMapping("/save")
+    public String save(@ModelAttribute("derslik") Derslik derslik) {
+        derslikService.saveDerslik(derslik);
+        return "redirect:/ders_derslik/derslik";
+    }
+
+    // Güncelleme formu
     @GetMapping("/{id}")
-    public Optional<Derslik> getById(@PathVariable Long id) {
-        return derslikService.getAllDerslik().stream().filter(d -> d.getId().equals(id)).findFirst();
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        Derslik derslik = derslikService.getById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Geçersiz ID: " + id));
+        model.addAttribute("derslik", derslik);
+        model.addAttribute("derslikler", derslikService.getAllDerslik());
+        return "dersProgrami/derslik-list";
     }
 
-    // Create a new Derslik entry
-    @PostMapping
-    public Derslik create(@RequestBody Derslik derslik) {
-        return derslikService.saveDerslik(derslik);
-    }
-
-    // Update an existing Derslik entry
-    @PutMapping("/{id}")
-    public Derslik update(@PathVariable Long id, @RequestBody Derslik derslik) {
-        derslik.setId(id); // Update the ID for the correct entry
-        return derslikService.saveDerslik(derslik);
-    }
-
-    // Delete a Derslik entry by ID
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    // Silme işlemi
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id) {
         derslikService.deleteDerslik(id);
+        return "redirect:/ders_derslik/derslik";
     }
 }

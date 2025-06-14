@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BolumYonetimSistemiApplication",
+            "request": "launch",
+            "mainClass": "com.project.bolumYonetim.BolumYonetimSistemiApplication",
+            "projectName": "bolumYonetimSistemi"
+        },
+        {
+            "type": "java",
+            "name": "BolumYonetimSistemiApplication",
+            "request": "launch",
+            "mainClass": "com.project.bolumYonetim.BolumYonetimSistemiApplication",
+            "projectName": "bolumYonetimSistemi"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-BolumYonetimSistemiApplication<bolumYonetimSistemi>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
