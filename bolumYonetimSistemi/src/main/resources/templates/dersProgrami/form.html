@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ders Programı Formu</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<h1>Ders Programına Ders Ekle</h1>
+<form th:action="@{/web/dersProgrami/kaydet}" th:object="${dersProgrami}" method="post">
+    <input type="hidden" th:field="*{id}"/>
+
+    <label>Gün:
+        <select th:field="*{gun}">
+            <option value="Pazartesi">Pazartesi</option>
+            <option value="Salı">Salı</option>
+            <option value="Çarşamba">Çarşamba</option>
+            <option value="Perşembe">Perşembe</option>
+            <option value="Cuma">Cuma</option>
+        </select>
+    </label><br/>
+
+    <label>Başlangıç Saati:
+        <input type="time" th:field="*{baslangic_saati}" required/>
+    </label><br/>
+
+    <label>Bitiş Saati:
+        <input type="time" th:field="*{bitis_saati}" required/>
+    </label><br/>
+
+    <label>Ders:
+        <select th:field="*{ders}" required>
+            <option th:each="d : ${dersler}" th:value="${d}" th:text="${d.ders_adi}"></option>
+        </select>
+    </label><br/>
+
+    <label>Öğretim Üyesi:
+        <select th:field="*{Ogretimuyesi}" required>
+            <option th:each="o : ${ogretimUyeleri}" th:value="${o}" th:text="${o.isim} + ' ' + ${o.soyisim}"></option>
+        </select>
+    </label><br/>
+
+    <label>Derslik:
+        <select th:field="*{derslik}" required>
+            <option th:each="dl : ${derslikler}" th:value="${dl}" th:text="${dl.isim}"></option>
+        </select>
+    </label><br/>
+
+    <button type="submit">Kaydet</button>
+</form>
+
+<a th:href="@{/web/dersProgrami}">Listeye Dön</a>
+</body>
+</html>

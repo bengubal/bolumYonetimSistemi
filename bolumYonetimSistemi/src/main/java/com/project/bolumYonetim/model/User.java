@@ -1,4 +1,4 @@
-package com.project.bolumYonetimSistemi.Entities;
+package com.project.bolumYonetim.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

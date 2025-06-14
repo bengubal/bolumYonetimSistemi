@@ -1,11 +1,11 @@
-package com.project.bolumYonetimSistemi.Services;
+package com.project.bolumYonetim.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.project.bolumYonetimSistemi.Entities.User;
-import com.project.bolumYonetimSistemi.Repositories.UserRepository;
+import com.project.bolumYonetim.model.User;
+import com.project.bolumYonetim.repository.UserRepository;
 
 @Component
 public class Veri implements CommandLineRunner {

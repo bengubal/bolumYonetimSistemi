@@ -1,4 +1,4 @@
-package com.project.bolumYonetimSistemi.Controllers;
+package com.project.bolumYonetim.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,8 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
-import com.project.bolumYonetimSistemi.Entities.User;
-import com.project.bolumYonetimSistemi.Services.UserService;
+import com.project.bolumYonetim.model.OgretimUyesi;
+import com.project.bolumYonetim.model.OgretimUyesiRequestDTO;
+import com.project.bolumYonetim.model.User;
+import com.project.bolumYonetim.service.OgretimUyesiService;
+import com.project.bolumYonetim.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -20,6 +23,8 @@ public class AdminController {
     
     @Autowired
     private UserService userService;
+    @Autowired
+    private OgretimUyesiService ogretimUyesiService;
 
     @GetMapping("/users")
     public String listUsers(Model model, HttpSession session) {
@@ -43,11 +48,28 @@ public class AdminController {
         return "yetkilendirme/kullaniciYonetimi";
     }
 
-    @PostMapping("/addUser")
-    public String addUser(@ModelAttribute User user) {
-        userService.saveUser(user);
-        return "redirect:/admin/users"; // Kullanıcı eklenince listeye geri dön
+   @PostMapping("/addUser")
+public String addUser(@ModelAttribute OgretimUyesiRequestDTO dto) {
+    // 1. User oluştur
+    User user = new User();
+    user.setUsername(dto.getUsername());
+    user.setPassword(dto.getPassword());
+    user.setRole(dto.getRole());
+    userService.saveUser(user);
+
+    // 2. Eğer öğretim üyesiyse, OgretimUyesi tablosuna da ekle
+    if ("Öğretim Elemanı".equals(dto.getRole()) || "Bölüm Başkanı".equals(dto.getRole())) {
+        OgretimUyesi ogretimUyesi = new OgretimUyesi();
+        ogretimUyesi.setIsim(dto.getIsim());
+        ogretimUyesi.setSoyisim(dto.getSoyisim());
+        ogretimUyesi.setEmail(dto.getEmail());
+        ogretimUyesi.setUnvan(dto.getUnvan());
+        ogretimUyesi.setUser(user); // user ile ilişkilendir
+        ogretimUyesiService.saveOgr(ogretimUyesi);
     }
+
+    return "redirect:/admin/users";
+}
 
     @GetMapping("/editUser/{id}")
     public String editUserForm(@PathVariable Long id, Model model, HttpSession session) {

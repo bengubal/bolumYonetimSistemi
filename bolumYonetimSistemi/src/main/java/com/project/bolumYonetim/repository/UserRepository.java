@@ -1,6 +1,7 @@
-package com.project.bolumYonetimSistemi.Repositories;
+package com.project.bolumYonetim.repository;
 
-import com.project.bolumYonetimSistemi.Entities.*;
+import com.project.bolumYonetim.model.User;
+import com.project.bolumYonetim.model.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

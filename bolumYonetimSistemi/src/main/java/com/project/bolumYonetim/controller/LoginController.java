@@ -1,6 +1,5 @@
-package com.project.bolumYonetimSistemi.Controllers;
+package com.project.bolumYonetim.controller;
 
-import com.project.bolumYonetimSistemi.Entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -8,7 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.project.bolumYonetimSistemi.Services.UserService;
+import com.project.bolumYonetim.model.User;
+import com.project.bolumYonetim.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 

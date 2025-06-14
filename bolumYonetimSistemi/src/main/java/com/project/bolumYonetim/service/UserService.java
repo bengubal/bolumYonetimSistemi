@@ -1,12 +1,12 @@
-package com.project.bolumYonetimSistemi.Services;
+package com.project.bolumYonetim.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.bolumYonetimSistemi.Entities.User;
-import com.project.bolumYonetimSistemi.Repositories.UserRepository;
+import com.project.bolumYonetim.model.User;
+import com.project.bolumYonetim.repository.UserRepository;
 
 @Service
 public class UserService {

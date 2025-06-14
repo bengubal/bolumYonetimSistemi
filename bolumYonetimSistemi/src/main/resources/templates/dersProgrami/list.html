@@ -1,0 +1,88 @@
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Ders Programı</h2>
+
+        <!-- Ders Programı Tablosu -->
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Pazartesi</th>
+                    <th>Salı</th>
+                    <th>Çarşamba</th>
+                    <th>Perşembe</th>
+                    <th>Cuma</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Saat Dilimleri -->
+                <tr>
+                    <!-- Pazartesi Dersleri -->
+                    <td>
+                        <div th:each="dp : ${dersProgramlari}">
+                            <div th:if="${dp.gun == 'Pazartesi'}">
+                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
+                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
+                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
+                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Salı Dersleri -->
+                    <td>
+                        <div th:each="dp : ${dersProgramlari}">
+                            <div th:if="${dp.gun == 'Salı'}">
+                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
+                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
+                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
+                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Çarşamba Dersleri -->
+                    <td>
+                        <div th:each="dp : ${dersProgramlari}">
+                            <div th:if="${dp.gun == 'Çarşamba'}">
+                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
+                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
+                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
+                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Perşembe Dersleri -->
+                    <td>
+                        <div th:each="dp : ${dersProgramlari}">
+                            <div th:if="${dp.gun == 'Perşembe'}">
+                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
+                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
+                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
+                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Cuma Dersleri -->
+                    <td>
+                        <div th:each="dp : ${dersProgramlari}">
+                            <div th:if="${dp.gun == 'Cuma'}">
+                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
+                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
+                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
+                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Bootstrap JS (opsiyonel, yalnızca etkileşimli öğeler için) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>

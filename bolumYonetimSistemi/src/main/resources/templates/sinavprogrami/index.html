@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sınav Programı</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        h2 { margin-bottom: 10px; }
+        form { margin-top: 30px; padding: 20px; border: 1px solid #ccc; background-color: #f8f8f8; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 6px; margin-top: 4px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <p th:if="${hataMesaji}" style="color:red;" th:text="${hataMesaji}"></p>
+    <h2>Sınav Programı Listesi</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ders</th>
+                <th>Derslik</th>
+                <th>Gözetmen</th>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sinav : ${sinavlar}">
+                <td th:text="${sinav.ders.ders_adi}">Ders</td>
+                <td th:text="${sinav.derslik.isim}">Derslik</td>
+                <td th:text="${sinav.gozetmen.unvan + ' ' + sinav.gozetmen.isim + ' ' + sinav.gozetmen.soyisim}">Gözetmen</td>
+                <td th:text="${sinav.tarih}">Tarih</td>
+                <td th:text="${sinav.saat}">Saat</td>
+                <td th:text="${sinav.notlar} ?: 'Henüz girilmedi'"></td>
+                <td>
+                    <a th:href="@{'/sinavprogrami/sil/' + ${sinav.id}}" style="color:red;">Sil</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Yeni Sınav Ekle</h2>
+    <form th:action="@{/sinavprogrami/kaydet}" th:object="${sinavProgrami}" method="post">
+        <label>Ders:</label>
+        <select th:field="*{ders}">
+            <option value="" disabled selected>Ders seçiniz</option>
+            <option th:each="ders : ${dersler}" th:value="${ders}" th:text="${ders.ders_adi}">Ders</option>
+        </select>
+
+        <label>Derslik:</label>
+        <select th:field="*{derslik}">
+            <option value="" disabled selected>Derslik seçiniz</option>
+            <option th:each="d : ${derslikler}" th:value="${d}" th:text="${d.isim}">Derslik</option>
+        </select>
+
+        <label>Gözetmen:</label>
+        <select th:field="*{gozetmen}">
+            <option value="" disabled selected>Gözetmen seçiniz</option>
+            <option th:each="o : ${ogretimUyeleri}" th:value="${o}" th:text="${o.unvan + ' ' + o.isim + ' ' + o.soyisim}">Gözetmen</option>
+        </select>
+
+        <label>Tarih:</label>
+        <input type="date" th:field="*{tarih}" required />
+
+        <label>Saat:</label>
+        <input type="time" th:field="*{saat}" required />
+
+        <button type="submit">Sınavı Kaydet</button>
+    </form>
+
+</body>
+</html>

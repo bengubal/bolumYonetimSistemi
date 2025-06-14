@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sınav Programım</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 30px; }
+        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        h2 { margin-bottom: 10px; }
+        form { margin-top: 30px; padding: 20px; border: 1px solid #ccc; background-color: #f8f8f8; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 6px; margin-top: 4px; }
+        button { margin-top: 15px; padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h2>Sınav Programınız</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ders</th>
+                <th>Derslik</th>
+                <th>Tarih</th>
+                <th>Saat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="sinav : ${sinavlar}">
+                <td th:text="${sinav.ders.ders_adi}">Ders Adı</td>
+                <td th:text="${sinav.derslik.isim}">Derslik</td>
+                <td th:text="${sinav.tarih}">Tarih</td>
+                <td th:text="${sinav.saat}">Saat</td>
+                <td th:text="${sinav.notlar}"></td>
+                <td>
+                    <form th:action="@{/ogretimelemani/sinavprogrami/notEkle}" method="post">
+                        <input type="hidden" name="sinavId" th:value="${sinav.id}" />
+                        <input type="text" name="notlar" th:value="${sinav.notlar}" placeholder="Not giriniz..." />
+                        <button type="submit">Kaydet</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="/logout">Çıkış</a>
+</body>
+</html>
