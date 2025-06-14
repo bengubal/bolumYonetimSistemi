@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Kapı İsimliği</title>
+    <title>Ders Programı</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -65,6 +65,9 @@
         }
 
         @media print {
+            #notlar-section {
+                display: none;
+            }
             .print-button {
                 display: none;
             }
@@ -78,6 +81,26 @@
                 box-shadow: none;
                 border-radius: 0;
             }
+        }
+        /* Notlar ve form kısmı için basit stil */
+        #notlar-section {
+            margin-top: 40px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        #notlar-section h3 {
+            margin-top: 0;
+            color: #1976d2;
+        }
+        #notlar-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        #notlar-list th, #notlar-list td {
+            padding: 8px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
@@ -105,6 +128,47 @@
     </table>
 
     <button class="print-button" onclick="window.print()">🖨️ Yazdır</button>
+
+    <!-- Not ekleme ve görüntüleme alanı -->
+    <section id="notlar-section">
+        <h3>Not Ekle / Görüntüle</h3>
+
+        <form th:action="@{/notlar/ekle}" method="post">
+            <label for="dersProgramiId">Ders Programı:</label>
+            <select name="dersProgramiId" id="dersProgramiId" required>
+                <option th:each="item : ${program}" 
+                        th:value="${item.id}"
+                        th:text="${item.ders.ders_adi} + ' - ' + ${item.gun} + ' ' + ${item.baslangic_saati} + '-' + ${item.bitis_saati}">
+                </option>
+            </select>
+            <br><br>
+
+            <label for="notMetni">Not:</label>
+            <input type="text" id="notMetni" name="notMetni" required />
+            <br><br>
+
+            <button type="submit">Notu Kaydet</button>
+        </form>
+
+        <div id="notlar-list" style="margin-top: 30px;">
+            <h4>Eklediğiniz Notlar</h4>
+            <table>
+                <thead>
+                <tr>
+                    <th>Ders</th>
+                    <th>Not</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notlar : ${notlar}">
+                    <td th:text="${notlar.dersProgrami.ders.ders_adi} + ' (' + notlar.dersProgrami.gun + ', ' + notlar.dersProgrami.baslangic_saati + '-' + notlar.dersProgrami.bitis_saati + ')'"></td>
+                    <td th:text="${notlar.notMetni}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </div>
+
 </body>
 </html>

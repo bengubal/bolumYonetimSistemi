@@ -39,4 +39,8 @@ public class OgretimUyesiService {
 	        return ogretimUyesiRepository.findById(id); // Retrieves the Optional of OgretimUyesi
 	    }
 
+        public OgretimUyesi findByUserId(Long id) {
+            return ogretimUyesiRepository.findByUserId(id);
+        }
+
 }
