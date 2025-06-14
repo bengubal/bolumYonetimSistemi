@@ -1,14 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Kapı İsimliği</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
-        .isimlik { border: 2px solid #000; padding: 20px; width: 600px; }
-        h2 { margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
-        .print-button { margin-top: 20px; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .isimlik {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 30px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .print-button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .print-button:hover {
+            background-color: #115293;
+        }
+
+        @media print {
+            .print-button {
+                display: none;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .isimlik {
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -26,15 +96,15 @@
         </thead>
         <tbody>
         <tr th:each="item : ${program}">
-            <td th:text="${item.ders.ders_adi}"></td>
-            <td th:text="${item.gun}"></td>
-            <td th:text="${item.baslangic_saati}+ '-' + ${item.bitis_saati}"></td>
-            <td th:text="${item.derslik.isim}"></td>
+            <td th:text="${item.ders.ders_adi}">Matematik</td>
+            <td th:text="${item.gun}">Pazartesi</td>
+            <td th:text="${item.baslangic_saati}+ '-' + ${item.bitis_saati}">10:00 - 12:00</td>
+            <td th:text="${item.derslik.isim}">B203</td>
         </tr>
         </tbody>
     </table>
 
-    <button class="print-button" onclick="window.print()">Yazdır</button>
+    <button class="print-button" onclick="window.print()">🖨️ Yazdır</button>
 </div>
 </body>
 </html>
