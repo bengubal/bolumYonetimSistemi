@@ -61,39 +61,5 @@ public class DersIslemleriController {
         return "redirect:/ders_derslik/dersler"; // Silme işlemi sonrası dersler sayfasına dön
     }
 
-    // Derslik işlemleri
-    @GetMapping("/derslikler")
-    public String listDerslikler(Model model) {
-        List<Derslik> derslikler = derslikService.getAllDerslik();
-        model.addAttribute("derslikler", derslikler);
-        return "dersProgrami/dersislemleri"; // Thymeleaf şablonu
-    }
 
-    @GetMapping("/derslik/{id}")
-    public String getDerslik(@PathVariable("id") Long id, Model model) {
-        Optional<Derslik> derslik = derslikService.getById(id);
-        if (derslik.isPresent()) {
-            model.addAttribute("derslik", derslik.get());
-            return "dersProgrami/dersislemleri"; // Thymeleaf şablonu
-        }
-        return "redirect:/ders_derslik/derslikler"; // Derslik bulunmazsa listeye dön
-    }
-
-    @GetMapping("/derslik/new")
-    public String showAddDerslikForm(Model model) {
-        model.addAttribute("derslik", new Derslik());
-        return "dersProgrami/dersislemleri"; // Yeni derslik formu
-    }
-
-    @PostMapping("/derslik/save")
-    public String saveDerslik(@ModelAttribute("derslik") Derslik derslik) {
-        derslikService.saveDerslik(derslik);
-        return "redirect:/ders_derslik/derslikler"; // Kaydedildikten sonra derslikler sayfasına dön
-    }
-
-    @GetMapping("/derslik/delete/{id}")
-    public String deleteDerslik(@PathVariable("id") Long id) {
-        derslikService.deleteDerslik(id);
-        return "redirect:/ders_derslik/derslikler"; // Silme işlemi sonrası derslikler sayfasına dön
-    }
 }
