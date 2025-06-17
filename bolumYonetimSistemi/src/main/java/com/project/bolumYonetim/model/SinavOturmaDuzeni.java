@@ -19,7 +19,6 @@ public class SinavOturmaDuzeni {
     @Column(nullable = false)
     private LocalDateTime sinavTarihi;
 
-    
     @Column(nullable = false)
     private String derslikAdi;
     
@@ -46,28 +45,15 @@ public class SinavOturmaDuzeni {
     
     @Column(nullable = false)
     private boolean onaylandi;
-   
-    @Column(nullable = false)
-    private String dersKodu;
-
-    public String getDersKodu() {
-        return dersKodu;
-    }
-
-    public void setDersKodu(String dersKodu) {
-        this.dersKodu = dersKodu;
-    }
-
     
     // Constructors
     public SinavOturmaDuzeni() {}
     
     public SinavOturmaDuzeni(String sinavAdi, LocalDateTime sinavTarihi, String derslikAdi, 
-                            String gozetmenler,String dersKodu, List<Ogrenci> ogrenciler) {
+                             String gozetmenler, List<Ogrenci> ogrenciler) {
         this.sinavAdi = sinavAdi;
         this.sinavTarihi = sinavTarihi;
         this.derslikAdi = derslikAdi;
-        this.dersKodu = dersKodu;
         this.gozetmenler = gozetmenler;
         this.ogrenciler = ogrenciler;
         this.olusturmaTarihi = LocalDateTime.now();

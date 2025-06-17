@@ -5,6 +5,7 @@ import com.project.bolumYonetim.repository.SinavOturmaDuzeniRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.io.source.ByteArrayOutputStream;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Cell;
@@ -44,50 +45,53 @@ public class SinavOturmaDuzeniService {
     }
 
     // Rastgele oturma düzeni oluştur
-    public SinavOturmaDuzeni rastgeleOturmaDuzeniOlustur(
-        Derslik derslik,
-        String sinavAdi,
-        LocalDateTime sinavTarihi, // ← Artık LocalDateTime
-        List<Ogrenci> ogrenciler,
-        String gozetmenler)
-{
+public SinavOturmaDuzeni rastgeleOturmaDuzeniOlustur(
+    Derslik derslik,
+    String sinavAdi,
+    LocalDateTime sinavTarihi,
+    List<Ogrenci> ogrenciler,
+    String gozetmenler) {
 
-        // Çakışma kontrolü
-        List<SinavOturmaDuzeni> cakisanSinavlar = sinavOturmaDuzeniRepository
-                .findConflictingExams(derslik.getIsim(), sinavTarihi);
+    int kapasite = derslik.getGenislik() * derslik.getYukseklik();
+    int bosKoltukSayisi = kapasite / 2;  // kapasitenin yarısı boş kalacak
+    int maxOgrenciSayisi = kapasite - bosKoltukSayisi;
 
-        if (!cakisanSinavlar.isEmpty()) {
-            throw new IllegalStateException("Bu derslikte aynı tarihte başka bir sınav mevcut!");
-        }
-
-        // Derslik kapasitesi kontrolü
-        if (ogrenciler.size() > derslik.getKapasite()) {
-            throw new IllegalStateException("Öğrenci sayısı (" + ogrenciler.size() +
-                    ") derslik kapasitesini (" + derslik.getKapasite() + ") aşıyor!");
-        }
-
-        // Öğrenci listesini karıştır
-        List<Ogrenci> karisikOgrenciler = new ArrayList<>(ogrenciler);
-        Collections.shuffle(karisikOgrenciler);
-
-        // Oturma düzeni oluştur
-        SinavOturmaDuzeni oturmaDuzeni = new SinavOturmaDuzeni();
-        oturmaDuzeni.setSinavAdi(sinavAdi);
-        // Tarih string yerine LocalDateTime olarak set et
-        oturmaDuzeni.setSinavTarihi(sinavTarihi);
-        oturmaDuzeni.setDerslikAdi(derslik.getIsim());
-        oturmaDuzeni.setGozetmenler(gozetmenler);
-        oturmaDuzeni.setOgrenciler(karisikOgrenciler);
-        oturmaDuzeni.setOlusturmaTarihi(LocalDateTime.now());
-        oturmaDuzeni.setDurum("TASLAK");
-        oturmaDuzeni.setOnaylandi(false);
-
-        // Oturma pozisyonlarını oluştur
-        Map<String, String> oturmaPozisyonlari = oturmaPozisyonlariOlustur(derslik, karisikOgrenciler);
-        oturmaDuzeni.setOturmaPozisyonlari(oturmaPozisyonlari);
-
-        return sinavOturmaDuzeniRepository.save(oturmaDuzeni);
+    // Eğer gelen öğrenci sayısı max sınırı aşarsa hata fırlat
+    if (ogrenciler.size() > maxOgrenciSayisi) {
+        throw new IllegalStateException("Öğrenci sayısı (" + ogrenciler.size() + 
+            ") izin verilen maksimum (" + maxOgrenciSayisi + ") öğrenciyi aşıyor!");
     }
+
+    // Çakışma kontrolü
+    List<SinavOturmaDuzeni> cakisanSinavlar = sinavOturmaDuzeniRepository
+            .findConflictingExams(derslik.getIsim(), sinavTarihi);
+
+    if (!cakisanSinavlar.isEmpty()) {
+        throw new IllegalStateException("Bu derslikte aynı tarihte başka bir sınav mevcut!");
+    }
+
+    // Öğrenci listesini karıştır
+    List<Ogrenci> karisikOgrenciler = new ArrayList<>(ogrenciler);
+    Collections.shuffle(karisikOgrenciler);
+
+    // Oturma düzeni oluştur
+    SinavOturmaDuzeni oturmaDuzeni = new SinavOturmaDuzeni();
+    oturmaDuzeni.setSinavAdi(sinavAdi);
+    oturmaDuzeni.setSinavTarihi(sinavTarihi);
+    oturmaDuzeni.setDerslikAdi(derslik.getIsim());
+    oturmaDuzeni.setGozetmenler(gozetmenler);
+    oturmaDuzeni.setOgrenciler(karisikOgrenciler);
+    oturmaDuzeni.setOlusturmaTarihi(LocalDateTime.now());
+    oturmaDuzeni.setDurum("TASLAK");
+    oturmaDuzeni.setOnaylandi(false);
+
+    // Oturma pozisyonlarını oluştur
+    Map<String, String> oturmaPozisyonlari = oturmaPozisyonlariOlustur(derslik, karisikOgrenciler);
+    oturmaDuzeni.setOturmaPozisyonlari(oturmaPozisyonlari);
+
+    return sinavOturmaDuzeniRepository.save(oturmaDuzeni);
+}
+
 
 public SinavOturmaDuzeni sinavProgramindanOturmaDuzeniOlustur(
         Long sinavProgramiId,
@@ -99,7 +103,7 @@ public SinavOturmaDuzeni sinavProgramindanOturmaDuzeniOlustur(
     }
 
     SinavProgrami sinavProgrami = sinavProgramiOpt.get();
-
+    String dersKodu = sinavProgrami.getDers().getDers_kodu(); 
     String sinavAdi = sinavProgrami.getDers().getDers_adi();
 
     // LocalDate ve LocalTime'dan LocalDateTime oluştur
@@ -120,27 +124,45 @@ public SinavOturmaDuzeni sinavProgramindanOturmaDuzeniOlustur(
 }
 
 
+
     // Oturma pozisyonlarını oluştur
-    private Map<String, String> oturmaPozisyonlariOlustur(Derslik derslik, List<Ogrenci> ogrenciler) {
-        Map<String, String> pozisyonlar = new HashMap<>();
+private Map<String, String> oturmaPozisyonlariOlustur(Derslik derslik, List<Ogrenci> ogrenciler) {
+    Map<String, String> pozisyonlar = new HashMap<>();
 
-        Integer satirSayisi = derslik.getGenislik() != null ? derslik.getGenislik() : 10;
-        Integer sutunSayisi = derslik.getYukseklik() != null ? derslik.getYukseklik() : 6;
+    Integer satirSayisi = derslik.getGenislik() != null ? derslik.getGenislik() : 10;
+    Integer sutunSayisi = derslik.getYukseklik() != null ? derslik.getYukseklik() : 6;
 
-        int ogrenciIndex = 0;
+    // Derslik kapasitesine göre öğrenci sayısı
+    int kapasite = satirSayisi * sutunSayisi;
 
-        for (int satir = 1; satir <= satirSayisi && ogrenciIndex < ogrenciler.size(); satir++) {
-            for (int sutun = 1; sutun <= sutunSayisi && ogrenciIndex < ogrenciler.size(); sutun++) {
-                String pozisyon = satir + "-" + sutun;
-                Ogrenci ogrenci = ogrenciler.get(ogrenciIndex);
-                pozisyonlar.put(pozisyon, ogrenci.getAd() + " " + ogrenci.getSoyad() +
-                        " (" + ogrenci.getOgrenciNo() + ")");
-                ogrenciIndex++;
+    // Boş bırakılacak koltuk sayısı (örnek: kapasitenin yarısı)
+    int bosKoltukSayisi = kapasite / 2;
+
+    // Gerçek öğrenci sayısı (kapasitenin yarısı kadar boşlukla sınırla)
+    int maxOgrenciSayisi = Math.min(ogrenciler.size(), kapasite - bosKoltukSayisi);
+
+    int ogrenciIndex = 0;
+
+    // Örnek olarak: her ikinci koltuk boş bırakılacak (basit bir boşluk şekli)
+    for (int satir = 1; satir <= satirSayisi && ogrenciIndex < maxOgrenciSayisi; satir++) {
+        for (int sutun = 1; sutun <= sutunSayisi && ogrenciIndex < maxOgrenciSayisi; sutun++) {
+            // Her 2. koltuk boş (örnek)
+            if ((sutun % 2) == 0) {
+                // boş koltuk, atlama, herhangi bir öğrenci yok
+                continue;
             }
-        }
 
-        return pozisyonlar;
+            String pozisyon = satir + "-" + sutun;
+            Ogrenci ogrenci = ogrenciler.get(ogrenciIndex);
+            pozisyonlar.put(pozisyon, ogrenci.getAd() + " " + ogrenci.getSoyad() +
+                    " (" + ogrenci.getOgrenciNo() + ")");
+            ogrenciIndex++;
+        }
     }
+
+    return pozisyonlar;
+}
+
 
     // Oturma düzeni matrisini oluştur
     public String[][] oturmaDuzeniMatrisiOlustur(SinavOturmaDuzeni oturmaDuzeni, Derslik derslik) {
@@ -266,47 +288,45 @@ public SinavOturmaDuzeni sinavProgramindanOturmaDuzeniOlustur(
     }
 
     // Günlük sınav oturma düzenlerini getir
+public byte[] pdfRaporOlusturBytes(SinavOturmaDuzeni oturmaDuzeni) throws Exception {
+    Derslik derslik = derslikService.getByIsim(oturmaDuzeni.getDerslikAdi())
+            .orElseThrow(() -> new RuntimeException("Derslik bulunamadı!"));
 
-    public void pdfRaporOlustur(SinavOturmaDuzeni oturmaDuzeni) throws Exception {
-        Derslik derslik = derslikService.getByIsim(oturmaDuzeni.getDerslikAdi())
-                .orElseThrow(() -> new RuntimeException("Derslik bulunamadı!"));
+    String[][] matris = this.oturmaDuzeniMatrisiOlustur(oturmaDuzeni, derslik);
 
-        String[][] matris = this.oturmaDuzeniMatrisiOlustur(oturmaDuzeni, derslik);
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        String pdfPath = "pdf/sinav_oturma_" + oturmaDuzeni.getId() + ".pdf";
-        new File("pdf").mkdirs(); // klasör yoksa oluştur
+    PdfWriter writer = new PdfWriter(baos);
+    PdfDocument pdf = new PdfDocument(writer);
+    Document document = new Document(pdf);
 
-        PdfWriter writer = new PdfWriter(new FileOutputStream(pdfPath));
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
+    document.add(new Paragraph("Sınav Oturma Düzeni Raporu")
+            .setBold()
+            .setFontSize(18)
+            .setTextAlignment(TextAlignment.CENTER)
+            .setMarginBottom(20));
 
-        document.add(new Paragraph("Sınav Oturma Düzeni Raporu")
-                .setBold()
-                .setFontSize(18)
-                .setTextAlignment(TextAlignment.CENTER)
-                .setMarginBottom(20));
+    document.add(new Paragraph("Sınav Adı: " + oturmaDuzeni.getSinavAdi()));
+    document.add(new Paragraph("Derslik: " + oturmaDuzeni.getDerslikAdi()));
+    document.add(new Paragraph("Tarih: " + oturmaDuzeni.getSinavTarihi().toString()));
+    document.add(new Paragraph("Gözetmenler: " + oturmaDuzeni.getGozetmenler()));
+    document.add(new Paragraph(" ")); // boşluk
 
-        document.add(new Paragraph("Sınav Adı: " + oturmaDuzeni.getSinavAdi()));
-        document.add(new Paragraph("Derslik: " + oturmaDuzeni.getDerslikAdi()));
-        document.add(new Paragraph("Tarih: " + oturmaDuzeni.getSinavTarihi().toString()));
-        document.add(new Paragraph("Gözetmenler: " + oturmaDuzeni.getGozetmenler()));
-        document.add(new Paragraph(" ")); // boşluk
+    int cols = matris[0].length;
 
-        // Matris tablosu
-        int rows = matris.length;
-        int cols = matris[0].length;
+    Table table = new Table(UnitValue.createPercentArray(cols)).useAllAvailableWidth();
 
-        Table table = new Table(UnitValue.createPercentArray(cols)).useAllAvailableWidth();
-
-        for (String[] row : matris) {
-            for (String cell : row) {
-                table.addCell(new Cell().add(new Paragraph(cell != null ? cell : ""))
-                        .setTextAlignment(TextAlignment.CENTER));
-            }
+    for (String[] row : matris) {
+        for (String cell : row) {
+            table.addCell(new Cell().add(new Paragraph(cell != null ? cell : ""))
+                    .setTextAlignment(TextAlignment.CENTER));
         }
-
-        document.add(table);
-        document.close();
     }
+
+    document.add(table);
+    document.close();
+
+    return baos.toByteArray();
+}
 
 }

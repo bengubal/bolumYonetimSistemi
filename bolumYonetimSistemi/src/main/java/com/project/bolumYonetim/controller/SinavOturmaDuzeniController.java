@@ -3,6 +3,10 @@ package com.project.bolumYonetim.controller;
 import com.project.bolumYonetim.model.*;
 import com.project.bolumYonetim.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -121,12 +125,22 @@ public class SinavOturmaDuzeniController {
     public String showDetails(@PathVariable Long id, Model model) {
         SinavOturmaDuzeni oturmaDuzeni = sinavOturmaDuzeniService.getById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Oturma düzeni bulunamadı: " + id));
-        
+
         model.addAttribute("oturmaDuzeni", oturmaDuzeni);
-        model.addAttribute("derslik", derslikService.getByIsim(oturmaDuzeni.getDerslikAdi()));
-        
+
+        Derslik derslik = derslikService.getByIsim(oturmaDuzeni.getDerslikAdi())
+                                .orElse(null);
+            model.addAttribute("derslik", derslik);
+
+        if (derslik != null) {
+            model.addAttribute("derslik", derslik);
+        } else {
+            model.addAttribute("derslik", new Derslik()); // boş ama null olmayan nesne
+        }
+
         return "sinavprogrami/sinav-oturma-detay";
     }
+
 
     // Oturma düzenini matris olarak görüntüle
     @GetMapping("/{id}/matris")
@@ -147,24 +161,24 @@ public class SinavOturmaDuzeniController {
 
     // PDF rapor oluştur
     @GetMapping("/{id}/pdf")
-    public String generatePdfReport(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        try {
-            SinavOturmaDuzeni oturmaDuzeni = sinavOturmaDuzeniService.getById(id)
-                    .orElseThrow(() -> new IllegalArgumentException("Oturma düzeni bulunamadı: " + id));
-            
-            // PDF oluşturma işlemi burada yapılacak
-            sinavOturmaDuzeniService.pdfRaporOlustur(oturmaDuzeni);
-            
-            redirectAttributes.addFlashAttribute("success", 
-                "PDF raporu başarıyla oluşturuldu!");
-            
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", 
-                "PDF raporu oluşturulurken hata: " + e.getMessage());
-        }
-        
-        return "redirect:/sinav-oturma/" + id;
+    ResponseEntity<byte[]> generatePdfReport (@PathVariable Long id) {
+    try {
+        SinavOturmaDuzeni oturmaDuzeni = sinavOturmaDuzeniService.getById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Oturma düzeni bulunamadı: " + id));
+
+        byte[] pdfBytes = sinavOturmaDuzeniService.pdfRaporOlusturBytes(oturmaDuzeni);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", "sinav_oturma_" + id + ".pdf");
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
 
     // Oturma düzenini onayla
     @PostMapping("/{id}/onayla")

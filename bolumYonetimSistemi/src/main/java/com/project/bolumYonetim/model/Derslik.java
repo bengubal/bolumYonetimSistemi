@@ -44,7 +44,7 @@ public class Derslik {
     }
 
     // Kapasiteyi doğrudan set etmek yerine private yaptık
-    private void setKapasite(Integer kapasite) {
+    public void setKapasite(Integer kapasite) {
         this.kapasite = kapasite;
     }
     
