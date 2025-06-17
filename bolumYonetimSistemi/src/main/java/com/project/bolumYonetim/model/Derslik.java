@@ -14,9 +14,9 @@ public class Derslik {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String isim;
-    Long kapasite;
-    Long genislik;
-    Long yukseklik;
+    Integer kapasite;
+    Integer genislik;
+    Integer yukseklik;
     
     @Override
     public String toString() {
@@ -39,29 +39,29 @@ public class Derslik {
         this.isim = isim;
     }
 
-    public Long getKapasite() {
+    public Integer getKapasite() {
         return kapasite;
     }
 
     // Kapasiteyi doğrudan set etmek yerine private yaptık
-    private void setKapasite(Long kapasite) {
+    public void setKapasite(Integer kapasite) {
         this.kapasite = kapasite;
     }
     
-    public Long getGenislik() {
+    public Integer getGenislik() {
         return genislik;
     }
     
-    public void setGenislik(Long genislik) {
+    public void setGenislik(Integer genislik) {
         this.genislik = genislik;
         updateKapasite();
     }
     
-    public Long getYukseklik() {
+    public Integer getYukseklik() {
         return yukseklik;
     }
     
-    public void setYukseklik(Long yukseklik) {
+    public void setYukseklik(Integer yukseklik) {
         this.yukseklik = yukseklik;
         updateKapasite();
     }

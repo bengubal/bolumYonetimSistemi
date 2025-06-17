@@ -36,5 +36,8 @@ public class DerslikService {
 		return derslikRepository.findById(id);
 	}
 
+    public Optional<Derslik> getByIsim(String isim) {
+        return derslikRepository.findByIsim(isim);
+    }
 
 }

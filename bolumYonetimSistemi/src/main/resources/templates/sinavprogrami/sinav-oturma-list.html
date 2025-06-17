@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sınav Oturma Düzenleri</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3><i class="fas fa-chair"></i> Sınav Oturma Düzenleri</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Başarı/Hata Mesajları -->
+                        <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+                            <i class="fas fa-check-circle"></i> <span th:text="${success}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+                            <i class="fas fa-exclamation-circle"></i> <span th:text="${error}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <!-- Toolbar -->
+                        <div class="mb-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <a href="/sinav-oturma/new" class="btn btn-success">
+                                    <i class="fas fa-plus"></i> Yeni Oturma Düzeni
+                                </a>
+  
+                            </div>
+                            
+
+                        </div>
+
+                        <!-- Tablo -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sınav Adı</th>
+                                        <th>Derslik</th>
+                                        <th>Sınav Tarihi</th>
+                                        <th>Öğrenci Sayısı</th>
+                                        <th>Gözetmenler</th>
+                                        <th>Durum</th>
+                                        <th>İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="oturmaDuzeni : ${sinavOturmaDuzenleri}">
+                                        <td th:text="${oturmaDuzeni.id}"></td>
+                                        <td th:text="${oturmaDuzeni.sinavAdi}"></td>
+                                        <td th:text="${oturmaDuzeni.derslikAdi}"></td>
+                                        <td th:text="${#temporals.format(oturmaDuzeni.sinavTarihi, 'dd.MM.yyyy HH:mm')}"></td>
+                                        <td>
+                                            <span class="badge bg-info" th:text="${#lists.size(oturmaDuzeni.oturmaPozisyonlari)}"></span>
+                                        </td>
+                                        <td th:text="${oturmaDuzeni.gozetmenler}"></td>
+                                        <td>
+                                            <span class="badge" 
+                                                  th:classappend="${oturmaDuzeni.durum == 'ONAYLANDI'} ? 'bg-success' : 'bg-warning'"
+                                                  th:text="${oturmaDuzeni.durum}"></span>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group btn-group-sm">
+                                                <a th:href="@{/sinav-oturma/{id}(id=${oturmaDuzeni.id})}" 
+                                                   class="btn btn-outline-primary" title="Detay">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a th:href="@{/sinav-oturma/{id}/matris(id=${oturmaDuzeni.id})}" 
+                                                   class="btn btn-outline-info" title="Matris Görünümü">
+                                                    <i class="fas fa-th"></i>
+                                                </a>
+                                                <a th:href="@{/sinav-oturma/{id}/pdf(id=${oturmaDuzeni.id})}" 
+                                                   class="btn btn-outline-secondary" title="PDF Rapor">
+                                                    <i class="fas fa-file-pdf"></i>
+                                                </a>
+                                                <a th:href="@{/sinav-oturma/delete/{id}(id=${oturmaDuzeni.id})}" 
+                                                   class="btn btn-outline-danger" title="Sil"
+                                                   onclick="return confirm('Bu oturma düzenini silmek istediğinizden emin misiniz?')">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div th:if="${#lists.isEmpty(sinavOturmaDuzenleri)}" class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">Henüz sınav oturma düzeni bulunmamaktadır.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
