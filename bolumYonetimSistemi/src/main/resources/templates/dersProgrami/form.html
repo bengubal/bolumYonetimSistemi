@@ -1,54 +1,75 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Ders Programı Formu</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<h1>Ders Programına Ders Ekle</h1>
-<form th:action="@{/web/dersProgrami/kaydet}" th:object="${dersProgrami}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Ders Programına Ders Ekle</h4>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/web/dersProgrami/kaydet}" th:object="${dersProgrami}" method="post">
+                <input type="hidden" th:field="*{id}"/>
 
-    <label>Gün:
-        <select th:field="*{gun}">
-            <option value="Pazartesi">Pazartesi</option>
-            <option value="Salı">Salı</option>
-            <option value="Çarşamba">Çarşamba</option>
-            <option value="Perşembe">Perşembe</option>
-            <option value="Cuma">Cuma</option>
-        </select>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Gün</label>
+                    <select th:field="*{gun}" class="form-select">
+                        <option value="Pazartesi">Pazartesi</option>
+                        <option value="Salı">Salı</option>
+                        <option value="Çarşamba">Çarşamba</option>
+                        <option value="Perşembe">Perşembe</option>
+                        <option value="Cuma">Cuma</option>
+                    </select>
+                </div>
 
-    <label>Başlangıç Saati:
-        <input type="time" th:field="*{baslangic_saati}" required/>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Başlangıç Saati</label>
+                    <input type="time" th:field="*{baslangic_saati}" class="form-control" required/>
+                </div>
 
-    <label>Bitiş Saati:
-        <input type="time" th:field="*{bitis_saati}" required/>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Bitiş Saati</label>
+                    <input type="time" th:field="*{bitis_saati}" class="form-control" required/>
+                </div>
 
-    <label>Ders:
-        <select th:field="*{ders}" required>
-            <option th:each="d : ${dersler}" th:value="${d}" th:text="${d.ders_adi}"></option>
-        </select>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Ders</label>
+                    <select th:field="*{ders}" class="form-select" required>
+                        <option th:each="d : ${dersler}" th:value="${d}" th:text="${d.ders_adi}"></option>
+                    </select>
+                </div>
 
-    <label>Öğretim Üyesi:
-        <select th:field="*{Ogretimuyesi}" required>
-            <option th:each="o : ${ogretimUyeleri}" th:value="${o}" th:text="${o.isim} + ' ' + ${o.soyisim}"></option>
-        </select>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Öğretim Üyesi</label>
+                    <select th:field="*{Ogretimuyesi}" class="form-select" required>
+                        <option th:each="o : ${ogretimUyeleri}" th:value="${o}" th:text="${o.isim + ' ' + o.soyisim}"></option>
+                    </select>
+                </div>
 
-    <label>Derslik:
-        <select th:field="*{derslik}" required>
-            <option th:each="dl : ${derslikler}" th:value="${dl}" th:text="${dl.isim}"></option>
-        </select>
-    </label><br/>
+                <div class="mb-3">
+                    <label class="form-label">Derslik</label>
+                    <select th:field="*{derslik}" class="form-select" required>
+                        <option th:each="dl : ${derslikler}" th:value="${dl}" th:text="${dl.isim}"></option>
+                    </select>
+                </div>
 
-    <button type="submit">Kaydet</button>
-</form>
-
-<a th:href="@{/web/dersProgrami}">Listeye Dön</a>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Kaydet
+                    </button>
+                    <a th:href="@{/web/dersProgrami}" class="btn btn-secondary ms-2">
+                        <i class="fas fa-arrow-left"></i> Listeye Dön
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 </body>
 </html>

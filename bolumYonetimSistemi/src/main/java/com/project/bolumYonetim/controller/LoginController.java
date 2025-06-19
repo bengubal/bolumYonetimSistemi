@@ -24,6 +24,7 @@ public class LoginController {
         return "yetkilendirme/index";
     }
 
+
     // İdari giriş ekranı
     @GetMapping("/idariGiris")
     public String idariGiris() {

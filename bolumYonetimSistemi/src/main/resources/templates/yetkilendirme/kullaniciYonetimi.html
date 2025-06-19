@@ -3,129 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <title>Kullanıcı Yönetimi</title>
-    <link rel="stylesheet" href="/css/kullaniciYonetimi.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-    <div class="container">
-        <h2>Kullanıcı Yönetimi</h2>
+<body class="login-container">
 
-        <!-- Kullanıcı Listesi -->
-        <h3>Mevcut Kullanıcılar</h3>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Kullanıcı Adı</th>
-                <th>Rol</th>
-                <th>İşlemler</th>
-            </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.role}"></td>
-                <td>
-                    <button onclick="editUser(this)" 
-                            th:data-id="${user.id}" 
-                            th:data-username="${user.username}" 
-                            th:data-role="${user.role}">
-                        Düzenle
-                    </button>
-                    <a th:href="@{/admin/deleteUser/{id}(id=${user.id})}" onclick="return confirm('Silmek istediğinize emin misiniz?')">
-                        <button>Sil</button>
-                    </a>
-                </td>
-            </tr>
-        </table>
-
-        <h3>Yeni Kullanıcı Ekle</h3>
-<form action="/admin/addUser" method="post">
-    <label>Kullanıcı Adı:</label>
-    <input type="text" name="username" required>
-
-    <label>Şifre:</label>
-    <input type="password" name="password" required>
-
-    <label>Rol:</label>
-    <select name="role" id="roleSelect" onchange="toggleOgretimFields(this)">
-        <option value="Bölüm Başkanı">Bölüm Başkanı</option>
-        <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
-        <option value="Öğretim Elemanı">Öğretim Elemanı</option>
-    </select>
-
-    <div id="ogretimFields" style="display: none;">
-        <label>İsim:</label>
-        <input type="text" name="isim">
-
-        <label>Soyisim:</label>
-        <input type="text" name="soyisim">
-
-        <label>Email:</label>
-        <input type="email" name="email">
-
-        <label>Ünvan:</label>
-        <input type="text" name="unvan">
+<div class="login-card" style="max-width: 1000px;">
+    <div class="login-card-header bg-info">
+        <h2><i class="fas fa-users-cog"></i> Kullanıcı Yönetimi</h2>
+        <p class="subtitle">Yeni kullanıcı ekleyebilir, mevcutları güncelleyebilirsiniz.</p>
     </div>
 
-    <button type="submit">Ekle</button>
-</form>
+    <div class="login-card-body">
+        <!-- Kullanıcı Listesi -->
+        <h4 class="mb-3">📋 Mevcut Kullanıcılar</h4>
+        <div class="table-responsive mb-5">
+            <table class="table table-bordered table-striped align-middle text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>Rol</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.role}"></td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-warning" onclick="editUser(this)"
+                                        th:data-id="${user.id}"
+                                        th:data-username="${user.username}"
+                                        th:data-role="${user.role}">
+                                    <i class="fas fa-edit"></i> Düzenle
+                                </button>
+                                <a th:href="@{/admin/deleteUser/{id}(id=${user.id})}"
+                                   onclick="return confirm('Silmek istediğinize emin misiniz?')"
+                                   class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i> Sil
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<script>
-function toggleOgretimFields(select) {
-    const ogretimFields = document.getElementById("ogretimFields");
-    const bolumBaskaniFields = document.getElementById("bolumBaskaniFields");
-    
-    // Öğretim Elemanı seçildiyse, ilgili alanı göster
-    if (select.value === "Öğretim Elemanı") {
-        ogretimFields.style.display = "block";
-        bolumBaskaniFields.style.display = "none";  // Bölüm Başkanı alanını gizle
-    }
-    // Bölüm Başkanı seçildiyse, ilgili alanı göster
-    else if (select.value === "Bölüm Başkanı") {
-        bolumBaskaniFields.style.display = "block";
-        ogretimFields.style.display = "none";  // Öğretim Elemanı alanını gizle
-    }
-    // Diğer durumda her iki alanı da gizle
-    else {
-        ogretimFields.style.display = "none";
-        bolumBaskaniFields.style.display = "none";
-    }
-}
-</script>
-        <!-- Kullanıcı Düzenleme Formu (Gizli, sadece düzenleme için açılır) -->
-        <div id="editUserSection" style="display: none;">
-            <h3>Kullanıcı Düzenle</h3>
-            <form th:action="@{/admin/editUser}" method="post">
-                <input type="hidden" id="editId" name="id">
-                
-                <label>Kullanıcı Adı:</label>
-                <input type="text" id="editUsername" name="username" required>
-
-                <label>Rol:</label>
-                <select id="editRole" name="role">
+        <!-- Yeni Kullanıcı Ekle -->
+        <h4 class="mb-3">➕ Yeni Kullanıcı Ekle</h4>
+        <form action="/admin/addUser" method="post" class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Kullanıcı Adı:</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Şifre:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Rol:</label>
+                <select name="role" id="roleSelect" class="form-select" onchange="toggleOgretimFields(this)">
                     <option value="Bölüm Başkanı">Bölüm Başkanı</option>
                     <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
                     <option value="Öğretim Elemanı">Öğretim Elemanı</option>
                 </select>
+            </div>
 
-                <button type="submit">Güncelle</button>
-                <button type="button" onclick="cancelEdit()">İptal</button>
+            <!-- Öğretim Elemanı Bilgileri -->
+            <div id="ogretimFields" style="display: none;" class="row g-3 mt-2">
+                <div class="col-md-3">
+                    <label class="form-label">İsim:</label>
+                    <input type="text" name="isim" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Soyisim:</label>
+                    <input type="text" name="soyisim" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Email:</label>
+                    <input type="email" name="email" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Ünvan:</label>
+                    <input type="text" name="unvan" class="form-control">
+                </div>
+            </div>
+
+            <div class="col-12 mt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-plus"></i> Kullanıcıyı Ekle
+                </button>
+            </div>
+        </form>
+
+        <!-- Kullanıcı Düzenleme Formu -->
+        <div id="editUserSection" style="display: none;" class="mt-5">
+            <h4 class="mb-3">✏️ Kullanıcı Düzenle</h4>
+            <form th:action="@{/admin/editUser}" method="post" class="row g-3">
+                <input type="hidden" id="editId" name="id">
+                <div class="col-md-4">
+                    <label class="form-label">Kullanıcı Adı:</label>
+                    <input type="text" id="editUsername" name="username" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Rol:</label>
+                    <select id="editRole" name="role" class="form-select">
+                        <option value="Bölüm Başkanı">Bölüm Başkanı</option>
+                        <option value="Bölüm Sekreteri">Bölüm Sekreteri</option>
+                        <option value="Öğretim Elemanı">Öğretim Elemanı</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-save"></i> Güncelle
+                    </button>
+                    <button type="button" onclick="cancelEdit()" class="btn btn-secondary">
+                        İptal
+                    </button>
+                </div>
             </form>
         </div>
     </div>
 
-    <a href="/logout"><button>Çıkış Yap</button></a>
+    <div class="login-footer text-center">
+        <a href="/logout" class="btn btn-outline-danger mt-3">
+            <i class="fas fa-sign-out-alt"></i> Çıkış Yap
+        </a>
+    </div>
+</div>
 
-    <script>
-        function editUser(button) {
-            document.getElementById("editUserSection").style.display = "block";
+<script>
+    function toggleOgretimFields(select) {
+        const ogretimFields = document.getElementById("ogretimFields");
+        const selectedRole = select.value;
+        ogretimFields.style.display = (selectedRole === "Öğretim Elemanı") ? "flex" : "none";
+    }
 
-            document.getElementById("editId").value = button.getAttribute("data-id");
-            document.getElementById("editUsername").value = button.getAttribute("data-username");
-            document.getElementById("editRole").value = button.getAttribute("data-role");
-        }
+    function editUser(button) {
+        document.getElementById("editUserSection").style.display = "block";
+        document.getElementById("editId").value = button.getAttribute("data-id");
+        document.getElementById("editUsername").value = button.getAttribute("data-username");
+        document.getElementById("editRole").value = button.getAttribute("data-role");
+    }
 
-        function cancelEdit() {
-            document.getElementById("editUserSection").style.display = "none";
-        }
-    </script>
+    function cancelEdit() {
+        document.getElementById("editUserSection").style.display = "none";
+    }
+</script>
+
 </body>
 </html>

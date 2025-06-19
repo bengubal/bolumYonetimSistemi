@@ -1,118 +1,761 @@
-/* Genel Sayfa Stil Ayarları */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ==========================================================================
+   Genel Proje Stilleri - style.css
+   ========================================================================== */
 
+/* Ana sayfa stilleri */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9; /* Arka plan rengi */
-    height: 100vh; /* Sayfa yüksekliğini tam olarak al */
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Yatayda ortalamak için */
-    align-items: center; /* Dikeyde ortalamak için */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    line-height: 1.6;
 }
 
-.container {
-    text-align: center; /* İçeriği ortalamak için */
-    background-color: white; /* Sayfa içi arka plan rengi */
-    padding: 30px 40px; /* İçerik etrafında boşluk */
-    border-radius: 10px; /* Kenarları yuvarlat */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
-    width: 300px; /* Sayfanın genişliği */
+/* ==========================================================================
+   Özel Kart Tasarımları
+   ========================================================================== */
+
+/* Bilgi kartları */
+.info-card {
+    border-left: 4px solid #007bff;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 
-h1, h2 {
-    color: #333; /* Başlık rengi */
-    margin-bottom: 20px; /* Başlık altına boşluk */
+.info-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-p {
-    color: #555; /* Yazı rengi */
-    font-size: 16px;
-    margin-bottom: 20px; /* Paragraf altına boşluk */
+/* Öğrenci kartları */
+.ogrenci-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
 }
 
-/* Form Elemanları */
-input[type="text"], input[type="password"], button {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc; /* Sınır rengi */
-    border-radius: 5px;
-    font-size: 16px;
+.ogrenci-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Başarı kartları */
+.success-card {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
 }
 
-label {
-    font-weight: bold;
-    margin-top: 10px;
+/* Uyarı kartları */
+.warning-card {
+    border-left: 4px solid #ffc107;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* Hata kartları */
+.danger-card {
+    border-left: 4px solid #dc3545;
+    background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
 }
 
-button {
-    background-color: #4CAF50; /* Buton rengi */
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
+/* ==========================================================================
+   Status Badge Stilleri
+   ========================================================================== */
+
+.status-badge {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.bg-success {
+    background: linear-gradient(45deg, #28a745, #20c997) !important;
+}
+
+.status-badge.bg-warning {
+    background: linear-gradient(45deg, #ffc107, #fd7e14) !important;
+    color: #212529 !important;
+}
+
+.status-badge.bg-danger {
+    background: linear-gradient(45deg, #dc3545, #e83e8c) !important;
+}
+
+.status-badge.bg-info {
+    background: linear-gradient(45deg, #17a2b8, #6f42c1) !important;
+}
+
+/* ==========================================================================
+   Kart Header Stilleri
+   ========================================================================== */
+
+.card-header {
+    font-weight: 600;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3) !important;
+}
+
+.card-header.bg-success {
+    background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+}
+
+.card-header.bg-secondary {
+    background: linear-gradient(135deg, #6c757d, #545b62) !important;
+}
+
+.card-header.bg-dark {
+    background: linear-gradient(135deg, #343a40, #23272b) !important;
+}
+
+.card-header.bg-info {
+    background: linear-gradient(135deg, #17a2b8, #117a8b) !important;
+}
+
+.card-header.bg-warning {
+    background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+    color: #212529 !important;
+}
+
+/* ==========================================================================
+   Buton Stilleri
+   ========================================================================== */
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
     border: none;
 }
 
-button:hover {
-    background-color: #45a049; /* Buton hover efekti */
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-button:active {
-    background-color: #388e3c; /* Buton tıklama efekti */
+.btn-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
 }
 
-/* Hata Mesajı */
-.error {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
+.btn-success {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
 }
 
-/* Sayfa bağlantı stili */
-a {
-    text-decoration: none;
-    color: #4CAF50;
-    font-weight: bold;
+.btn-danger {
+    background: linear-gradient(45deg, #dc3545, #c82333);
 }
 
-a:hover {
-    color: #45a049;
+.btn-warning {
+    background: linear-gradient(45deg, #ffc107, #e0a800);
+    color: #212529;
 }
 
-/* Tablo Stili */
-table {
+.btn-info {
+    background: linear-gradient(45deg, #17a2b8, #117a8b);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #545b62);
+}
+
+/* Outline butonlar */
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-danger:hover,
+.btn-outline-secondary:hover,
+.btn-outline-info:hover,
+.btn-outline-warning:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ==========================================================================
+   Tablo Stilleri
+   ========================================================================== */
+
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* ==========================================================================
+   Alert Stilleri
+   ========================================================================== */
+
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda, #c3e6cb);
+    color: #155724;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #f8d7da, #f5c6cb);
+    color: #721c24;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    color: #856404;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+    color: #0c5460;
+}
+
+/* ==========================================================================
+   Form Stilleri
+   ========================================================================== */
+
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-label.fw-bold {
+    font-weight: 600;
+    color: #495057;
+}
+
+/* ==========================================================================
+   Badge Stilleri
+   ========================================================================== */
+
+.badge {
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.badge.fs-6 {
+    font-size: 0.9rem !important;
+    padding: 0.4rem 0.8rem;
+}
+
+/* ==========================================================================
+   Icon Stilleri
+   ========================================================================== */
+
+.fas, .far, .fab {
+    margin-right: 0.5rem;
+}
+
+/* Kart başlıklarındaki iconlar */
+.card-header .fas {
+    margin-right: 0.5rem;
+    opacity: 0.9;
+}
+
+/* ==========================================================================
+   Animasyon ve Geçiş Efektleri
+   ========================================================================== */
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   Responsive Tasarım
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 0.5rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .status-badge {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-header h5,
+    .card-header h6 {
+        font-size: 1rem;
+    }
+    
+    .info-card .row .col-md-4 {
+        margin-top: 1rem;
+    }
+    
+    .d-grid.gap-2 .btn {
+        font-size: 0.85rem;
+    }
+}
+
+/* ==========================================================================
+   Özel Utility Sınıfları
+   ========================================================================== */
+
+.text-gradient-primary {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-success {
+    background: linear-gradient(45deg, #28a745, #1e7e34);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-soft {
+    box-shadow: 0 2px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.border-radius-lg {
+    border-radius: 12px !important;
+}
+
+.border-radius-xl {
+    border-radius: 16px !important;
+}
+
+/* Loading spinner */
+.spinner-custom {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   Login ve Auth Sayfaları Stilleri
+   ========================================================================== */
+
+/* Login sayfası ana container */
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.auth-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Login kartı */
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 400px;
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+    overflow: hidden;
+}
+
+.login-card-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    border-radius: 20px 20px 0 0;
+}
+
+.login-card-header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.8rem;
+}
+
+.login-card-header .subtitle {
+    opacity: 0.9;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.login-card-body {
+    padding: 2rem;
+}
+
+/* Login form stilleri */
+.login-form .form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.login-form .form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.login-form .form-label i {
+    margin-right: 0.5rem;
+    color: #667eea;
+}
+
+.login-form .form-control {
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.login-form .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    background: white;
+    transform: translateY(-1px);
+}
+
+.login-form .form-control:hover {
+    border-color: #adb5bd;
     background: white;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
+/* Login button */
+.login-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
 }
 
-th {
-    background: #007bff;
-    color: white;
+.login-btn:hover {
+    background: linear-gradient(135deg, #5a67d8, #6b46c1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+/* Error message */
+.login-error {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #dc2626;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 4px solid #dc2626;
+    margin-top: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.login-error i {
+    margin-right: 0.5rem;
+    color: #dc2626;
+}
+
+/* Success message */
+.login-success {
+    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    color: #059669;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 4px solid #059669;
+    margin-top: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+}
+
+.login-success i {
+    margin-right: 0.5rem;
+    color: #059669;
+}
+
+/* Forgot password link */
+.forgot-password {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.forgot-password a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.forgot-password a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Login footer */
+.login-footer {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 0 0 20px 20px;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Alternative login methods */
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    position: relative;
+}
+
+.divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #dee2e6;
+}
+
+.divider span {
+    background: white;
+    padding: 0 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Social login buttons */
+.social-login {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-btn {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #dee2e6;
+    background: white;
+    border-radius: 8px;
+    color: #495057;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.social-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading state */
+.login-btn.loading {
+    position: relative;
+    color: transparent;
+}
+
+.login-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    border: 2px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Remember me checkbox */
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+    border-radius: 4px;
+}
+
+.form-check-label {
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+/* ==========================================================================
+   Responsive Login Tasarımı
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .login-container,
+    .auth-container {
+        padding: 10px;
+    }
+    
+    .login-card {
+        margin: 0;
+        border-radius: 15px;
+    }
+    
+    .login-card-header {
+        padding: 1.5rem;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .login-card-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .login-card-body {
+        padding: 1.5rem;
+    }
+    
+    .social-login {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card-header {
+        padding: 1rem;
+    }
+    
+    .login-card-body {
+        padding: 1rem;
+    }
+    
+    .login-form .form-control {
+        padding: 10px 14px;
+    }
+    
+    .login-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+/* ==========================================================================
+   Print Stilleri
+   ========================================================================== */
+
+@media print {
+    .card {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #dee2e6;
+    }
+    
+    .btn, .alert {
+        display: none !important;
+    }
+    
+    .table {
+        box-shadow: none;
+    }
+    
+    .login-container,
+    .auth-container {
+        display: none !important;
+    }
 }

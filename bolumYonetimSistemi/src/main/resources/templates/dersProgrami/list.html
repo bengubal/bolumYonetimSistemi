@@ -1,91 +1,394 @@
+<!DOCTYPE html>
+<html lang="tr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Programı</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS dosyanızdan alınan stiller */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            line-height: 1.6;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 2px 25px rgba(0, 0, 0, 0.1);
+            border: none;
+            overflow: hidden;
+        }
+
+        .card-header {
+            font-weight: 600;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #007bff, #0056b3) !important;
+            color: white;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, #343a40, #23272b);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #dee2e6;
+            text-align: center;
+            vertical-align: middle;
+            padding: 1rem;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .table td {
+            vertical-align: top;
+            padding: 1rem;
+            border-right: 1px solid #dee2e6;
+        }
+
+        .table td:last-child {
+            border-right: none;
+        }
+
+        .ders-item {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #007bff;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ders-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .ders-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .ders-adi {
+            font-weight: 600;
+            color: #007bff;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .ders-adi i {
+            margin-right: 0.5rem;
+            color: #007bff;
+        }
+
+        .ders-detay {
+            font-size: 0.85rem;
+            color: #495057;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .ders-detay i {
+            margin-right: 0.5rem;
+            color: #6c757d;
+            width: 14px;
+            text-align: center;
+        }
+
+        .btn {
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .empty-day {
+            color: #6c757d;
+            font-style: italic;
+            text-align: center;
+            padding: 2rem 1rem;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            border: 2px dashed #dee2e6;
+        }
+
+        .gun-header {
+            position: relative;
+        }
+
+        .gun-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: #007bff;
+            border-radius: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .card-header h2 {
+                font-size: 1.25rem;
+            }
+            
+            .table-responsive {
+                font-size: 0.85rem;
+            }
+            
+            .ders-item {
+                padding: 0.5rem;
+            }
+            
+            .ders-adi {
+                font-size: 0.9rem;
+            }
+            
+            .ders-detay {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="mb-4 text-center">Ders Programı</h2>
+    <div class="container mt-4 fade-in">
+        <!-- Ana Kart -->
+        <div class="card shadow-soft">
+            <div class="card-header text-center">
+                <h2 class="mb-0">
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    Ders Programı
+                </h2>
+            </div>
+            <div class="card-body p-0">
+                <!-- Ders Programı Tablosu -->
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th class="gun-header">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    Pazartesi
+                                </th>
+                                <th class="gun-header">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    Salı
+                                </th>
+                                <th class="gun-header">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    Çarşamba
+                                </th>
+                                <th class="gun-header">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    Perşembe
+                                </th>
+                                <th class="gun-header">
+                                    <i class="fas fa-calendar-day me-1"></i>
+                                    Cuma
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- Pazartesi Dersleri -->
+                                <td>
+                                    <div th:each="dp : ${dersProgramlari}">
+                                        <div th:if="${dp.gun == 'Pazartesi'}" class="ders-item">
+                                            <div class="ders-adi">
+                                                <i class="fas fa-book"></i>
+                                                <span th:text="${dp.ders.ders_adi}">Ders Adı</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-clock"></i>
+                                                <span th:text="'Saat: ' + ${dp.baslangic_saati} + ' - ' + ${dp.bitis_saati}">Saat: 09:00 - 10:30</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-user-tie"></i>
+                                                <span th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}">Öğretim Üyesi: Ad Soyad</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-door-open"></i>
+                                                <span th:text="'Derslik: ' + ${dp.derslik.isim}">Derslik: A101</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Boş gün için placeholder (Thymeleaf olmayan ortam için) -->
+                                    <div class="empty-day" style="display: none;">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <div class="mt-2">Ders bulunmuyor</div>
+                                    </div>
+                                </td>
 
-        <!-- Ders Programı Tablosu -->
-        <table class="table table-bordered table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Pazartesi</th>
-                    <th>Salı</th>
-                    <th>Çarşamba</th>
-                    <th>Perşembe</th>
-                    <th>Cuma</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Saat Dilimleri -->
-                <tr>
-                    <!-- Pazartesi Dersleri -->
-                    <td>
-                        <div th:each="dp : ${dersProgramlari}">
-                            <div th:if="${dp.gun == 'Pazartesi'}">
-                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
-                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
-                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
-                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
-                            </div>
-                        </div>
-                    </td>
+                                <!-- Salı Dersleri -->
+                                <td>
+                                    <div th:each="dp : ${dersProgramlari}">
+                                        <div th:if="${dp.gun == 'Salı'}" class="ders-item">
+                                            <div class="ders-adi">
+                                                <i class="fas fa-book"></i>
+                                                <span th:text="${dp.ders.ders_adi}">Ders Adı</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-clock"></i>
+                                                <span th:text="'Saat: ' + ${dp.baslangic_saati} + ' - ' + ${dp.bitis_saati}">Saat: 09:00 - 10:30</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-user-tie"></i>
+                                                <span th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}">Öğretim Üyesi: Ad Soyad</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-door-open"></i>
+                                                <span th:text="'Derslik: ' + ${dp.derslik.isim}">Derslik: A101</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-day" style="display: none;">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <div class="mt-2">Ders bulunmuyor</div>
+                                    </div>
+                                </td>
 
-                    <!-- Salı Dersleri -->
-                    <td>
-                        <div th:each="dp : ${dersProgramlari}">
-                            <div th:if="${dp.gun == 'Salı'}">
-                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
-                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
-                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
-                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
-                            </div>
-                        </div>
-                    </td>
+                                <!-- Çarşamba Dersleri -->
+                                <td>
+                                    <div th:each="dp : ${dersProgramlari}">
+                                        <div th:if="${dp.gun == 'Çarşamba'}" class="ders-item">
+                                            <div class="ders-adi">
+                                                <i class="fas fa-book"></i>
+                                                <span th:text="${dp.ders.ders_adi}">Ders Adı</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-clock"></i>
+                                                <span th:text="'Saat: ' + ${dp.baslangic_saati} + ' - ' + ${dp.bitis_saati}">Saat: 09:00 - 10:30</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-user-tie"></i>
+                                                <span th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}">Öğretim Üyesi: Ad Soyad</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-door-open"></i>
+                                                <span th:text="'Derslik: ' + ${dp.derslik.isim}">Derslik: A101</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-day" style="display: none;">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <div class="mt-2">Ders bulunmuyor</div>
+                                    </div>
+                                </td>
 
-                    <!-- Çarşamba Dersleri -->
-                    <td>
-                        <div th:each="dp : ${dersProgramlari}">
-                            <div th:if="${dp.gun == 'Çarşamba'}">
-                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
-                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
-                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
-                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
-                            </div>
-                        </div>
-                    </td>
+                                <!-- Perşembe Dersleri -->
+                                <td>
+                                    <div th:each="dp : ${dersProgramlari}">
+                                        <div th:if="${dp.gun == 'Perşembe'}" class="ders-item">
+                                            <div class="ders-adi">
+                                                <i class="fas fa-book"></i>
+                                                <span th:text="${dp.ders.ders_adi}">Ders Adı</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-clock"></i>
+                                                <span th:text="'Saat: ' + ${dp.baslangic_saati} + ' - ' + ${dp.bitis_saati}">Saat: 09:00 - 10:30</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-user-tie"></i>
+                                                <span th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}">Öğretim Üyesi: Ad Soyad</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-door-open"></i>
+                                                <span th:text="'Derslik: ' + ${dp.derslik.isim}">Derslik: A101</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-day" style="display: none;">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <div class="mt-2">Ders bulunmuyor</div>
+                                    </div>
+                                </td>
 
-                    <!-- Perşembe Dersleri -->
-                    <td>
-                        <div th:each="dp : ${dersProgramlari}">
-                            <div th:if="${dp.gun == 'Perşembe'}">
-                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
-                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
-                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
-                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
-                            </div>
-                        </div>
-                    </td>
-
-                    <!-- Cuma Dersleri -->
-                    <td>
-                        <div th:each="dp : ${dersProgramlari}">
-                            <div th:if="${dp.gun == 'Cuma'}">
-                                <strong th:text="${dp.ders.ders_adi}"></strong><br>
-                                <small th:text="'Saat: ' + ${dp.baslangic_saati}+ '-' + ${dp.bitis_saati}"></small><br>
-                                <small th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}"></small>
-                                <br><small th:text="'Derslik: ' + ${dp.derslik.isim} "></small>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <a href="/notlar/yonetici"><button>Öğretim Üyesi Notları</button></a>
-
+                                <!-- Cuma Dersleri -->
+                                <td>
+                                    <div th:each="dp : ${dersProgramlari}">
+                                        <div th:if="${dp.gun == 'Cuma'}" class="ders-item">
+                                            <div class="ders-adi">
+                                                <i class="fas fa-book"></i>
+                                                <span th:text="${dp.ders.ders_adi}">Ders Adı</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-clock"></i>
+                                                <span th:text="'Saat: ' + ${dp.baslangic_saati} + ' - ' + ${dp.bitis_saati}">Saat: 09:00 - 10:30</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-user-tie"></i>
+                                                <span th:text="'Öğretim Üyesi: ' + ${dp.Ogretimuyesi.isim} + ' ' + ${dp.Ogretimuyesi.soyisim}">Öğretim Üyesi: Ad Soyad</span>
+                                            </div>
+                                            <div class="ders-detay">
+                                                <i class="fas fa-door-open"></i>
+                                                <span th:text="'Derslik: ' + ${dp.derslik.isim}">Derslik: A101</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="empty-day" style="display: none;">
+                                        <i class="fas fa-calendar-times"></i>
+                                        <div class="mt-2">Ders bulunmuyor</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Kart Footer -->
+            <div class="card-footer bg-light text-center">
+                <a href="/notlar/yonetici" class="btn btn-primary">
+                    <i class="fas fa-clipboard-list me-2"></i>
+                    Öğretim Üyesi Notları
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS (opsiyonel, yalnızca etkileşimli öğeler için) -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>
