@@ -48,6 +48,9 @@
                         <a th:href="@{/ders_derslik/derslik/{id}(id=${derslik.id})}" class="btn btn-sm btn-primary me-2">
                             <i class="fas fa-edit"></i> Güncelle
                         </a>
+                        <a th:href="@{/ders_derslik/derslik/{id}/dersler(id=${derslik.id})}" class="btn btn-sm btn-secondary">
+                                <i class="fas fa-book"></i> Dersleri Görüntüle
+                        </a>
                         <a th:href="@{/ders_derslik/derslik/delete/{id}(id=${derslik.id})}" class="btn btn-sm btn-danger"
                            onclick="return confirm('Dersliği silmek istediğinize emin misiniz?')">
                             <i class="fas fa-trash"></i> Sil

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Programı</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Segoe UI', sans-serif;
+            color: #343a40;
+            padding: 2rem;
+        }
+
+        h2 {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: #0056b3;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        thead {
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: white;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            transition: all 0.2s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 1rem;
+                border-radius: 12px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                background: white;
+                padding: 1rem;
+            }
+
+            td {
+                text-align: left;
+                padding: 0.5rem 1rem;
+                position: relative;
+            }
+
+            td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #0056b3;
+                display: block;
+                margin-bottom: 0.25rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 th:text="'Derslik: ' + ${derslik.isim}">Derslik: Örnek Derslik</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Ders</th>
+                <th>Öğretim Üyesi</th>
+                <th>Gün</th>
+                <th>Saat</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="dp : ${dersler}">
+                <td data-label="Ders" th:text="${dp.ders.ders_adi}">Matematik</td>
+                <td data-label="Öğretim Üyesi" th:text="${dp.ogretimuyesi.isim + ' ' + dp.ogretimuyesi.soyisim}">Dr. Ahmet Yılmaz</td>
+                <td data-label="Gün" th:text="${dp.gun}">Pazartesi</td>
+                <td data-label="Saat" th:text="${dp.baslangic_saati + ' - ' + dp.bitis_saati}">09:00 - 10:30</td>
+            </tr>
+            <!-- Diğer ders satırları dinamik olarak eklenecek -->
+        </tbody>
+    </table>
+
+</body>
+</html>

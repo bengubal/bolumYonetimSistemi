@@ -1,7 +1,13 @@
 package com.project.bolumYonetim.controller;
 
+import com.project.bolumYonetim.model.DersProgrami;
 import com.project.bolumYonetim.model.Derslik;
+import com.project.bolumYonetim.repository.DersProgramiRepository;
+import com.project.bolumYonetim.repository.DerslikRepository;
 import com.project.bolumYonetim.service.DerslikService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +19,12 @@ public class DerslikController {
 
     @Autowired
     private DerslikService derslikService;
+   
+    @Autowired
+    private DersProgramiRepository dersProgramiRepository;
+
+    @Autowired
+    private DerslikRepository derslikRepository;
 
     // Tüm derslikleri listele
     @GetMapping
@@ -52,4 +64,20 @@ public class DerslikController {
         derslikService.deleteDerslik(id);
         return "redirect:/ders_derslik/derslik";
     }
+    
+    @GetMapping("/{id}/dersler")
+    public String derslikDersleri(@PathVariable Long id, Model model) {
+        List<DersProgrami> dersler = dersProgramiRepository.findByDerslik_Id(id);
+        model.addAttribute("dersler", dersler);
+
+        Derslik derslik = derslikRepository.findById(id).orElseThrow();
+        model.addAttribute("derslik", derslik);
+
+        List<DersProgrami> dersProgramlari = dersProgramiRepository.findByDerslik_Id(id);
+
+        model.addAttribute("dersProgramlari", dersProgramlari);
+
+        return "dersProgrami/derslikDersleri"; // thymeleaf template
+    }
+
 }

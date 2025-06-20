@@ -16,4 +16,5 @@ public interface DersProgramiRepository extends JpaRepository<DersProgrami,Long>
     @Query("SELECT dp FROM DersProgrami dp JOIN FETCH dp.ders")
     List<DersProgrami> findAllWithDers();
     List<DersProgrami> findByOgretimuyesi(OgretimUyesi ogretimUyesi);
+     List<DersProgrami> findByDerslik_Id(Long derslikId);
 }
